@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09111f">
+  <title>智斗群游 · 原创桌游 AI 对战实验室</title>
+  <meta name="description" content="四款原创智斗桌游：粮草先行、地产大亨、逐梦梅莱坞、矿产风云。单机网页版交互原型。">
+  <style>
+:root{color-scheme:dark;--bg:#080e1a;--side:#0b1424;--panel:#111d30;--panel2:#15243a;--line:#283850;--line2:#374861;--text:#f1f5fb;--muted:#97aac4;--soft:#60758f;--gold:#e5ba6b;--cyan:#69d5c2;--red:#ed7778;--blue:#6c9df3;--r:15px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;color:var(--text);font-size:14px}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.36}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.app-shell{display:flex;min-height:100vh}.sidebar{position:sticky;top:0;align-self:flex-start;width:238px;height:100vh;flex-shrink:0;background:linear-gradient(160deg,#0f1c2e 0%,#0a1220 60%);border-right:1px solid #24344b;padding:29px 17px;display:flex;flex-direction:column}.brand{display:flex;gap:12px;align-items:center;padding:0 10px 35px}.brand-symbol{height:43px;width:43px;border:1px solid #af9165;background:linear-gradient(145deg,#66543f,#263248);color:#f7d89c;display:grid;place-items:center;font-size:31px;border-radius:12px;box-shadow:0 0 30px #cc9d4830}.brand strong{display:block;font-size:19px;letter-spacing:3px;white-space:nowrap}.brand small{display:block;color:#9b9cb2;font-size:9px;letter-spacing:2.3px;margin-top:4px}.sidebar-label{font-size:10px;letter-spacing:2px;color:#637e9b;padding:0 12px 12px}.navigation{display:flex;flex-direction:column;gap:7px}.nav-item{border:1px solid transparent;background:transparent;color:#9fb0c8;padding:13px 12px;text-align:left;width:100%;border-radius:11px;display:flex;align-items:center;gap:12px;transition:.2s}.nav-item:hover{background:#1a2b41;color:#fff}.nav-item.active{background:linear-gradient(100deg,#223a57,#1d2e45);border-color:#395370;color:#fff}.nav-icon{width:25px;font-size:20px;text-align:center;color:#e9bd75}.nav-short{margin-left:auto;color:#617991;font-size:10px}.sidebar-bottom{margin-top:auto;border-top:1px solid #28374a;padding:24px 10px 0}.online-dot{color:#a8c8be;font-size:12px;margin-bottom:18px}.online-dot span,.pulse{display:inline-block;width:7px;height:7px;background:#58d6ad;box-shadow:0 0 10px #58d6ad;border-radius:50%;margin-right:6px}.side-line{font-size:11px;color:#7088a2;margin:8px 0}.side-line b{color:#b1c1d3}.main-wrapper{flex:1;min-width:0;max-width:calc(100% - 238px);display:flex;flex-direction:column}.topbar{height:75px;border-bottom:1px solid #1b2b42;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,3vw,49px);background:#0b1422aa}.breadcrumb{color:#7d90a8;font-size:12px;display:flex;gap:14px;align-items:center}.breadcrumb strong{color:#e1eafa;font-weight:600}.slash{color:#46607b}.top-actions{display:flex;align-items:center;gap:18px}.status-pill{border:1px solid #294a48;background:#15302f;color:#9bdbc9;padding:7px 12px;border-radius:30px;font-size:10px;letter-spacing:1px}.subtle{background:transparent;border:0;color:#90a6be;font-size:12px}.subtle:hover{color:white}main{flex:1;padding:clamp(20px,3vw,46px);max-width:1660px;width:100%;margin:auto}.foot{padding:19px clamp(20px,3vw,49px);border-top:1px solid #1b2b42;color:#546982;font-size:10px;display:flex;justify-content:space-between;gap:12px}.eyebrow{font-size:11px;letter-spacing:3px;color:var(--gold);font-weight:700}.hero{position:relative;overflow:hidden;border-radius:23px;min-height:260px;padding:41px clamp(24px,4vw,56px);background:radial-gradient(circle at 75% 22%,#354d6f85,transparent 31%),radial-gradient(circle at 90% 94%,#835d395e,transparent 38%),linear-gradient(112deg,#192b42,#142239 60%,#1c2636);border:1px solid #3a4b65}.hero:before{content:"";position:absolute;right:8%;top:-160px;width:380px;height:380px;border:1px solid #e0bf8c2a;border-radius:50%;box-shadow:0 0 0 40px #e0bf8c09,0 0 0 100px #e0bf8c08}.hero:after{content:"♞";position:absolute;right:14%;top:5%;font-size:210px;transform:rotate(-18deg);color:#dfc99b17;text-shadow:0 0 70px #dcbc9c33}.hero>*{position:relative;z-index:1}.hero h1{font-size:clamp(30px,4.2vw,53px);margin:15px 0 13px;letter-spacing:2px}.hero h1 em{font-style:normal;color:#f5cd8a}.hero p{color:#b2c3d5;font-size:14px;max-width:570px;line-height:1.95}.hero-stats{display:flex;gap:24px;margin-top:25px;color:#b7c7d6}.hero-stats b{color:#eec584;font-size:20px;margin-right:6px}.section-head{display:flex;align-items:end;justify-content:space-between;margin:35px 0 19px;gap:15px}.section-head h2{margin:7px 0 0;font-size:24px}.section-head small{color:var(--muted)}.game-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.game-card{padding:27px;min-height:247px;border:1px solid #2a4057;border-radius:19px;position:relative;overflow:hidden;background:linear-gradient(125deg,#162741,#101c30);display:flex;flex-direction:column;transition:.2s}.game-card:hover{transform:translateY(-3px);border-color:#687c95}.game-card:after{position:absolute;right:-12px;top:-45px;font-size:190px;opacity:.1;font-weight:bold}.game-card.grain:after{content:"♞";color:#c7ebbf}.game-card.estate:after{content:"▥";color:#fbd18c}.game-card.movie:after{content:"◉";color:#e1a8fc}.game-card.mine:after{content:"◆";color:#6dd9d9}.card-top,.card-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px}.card-number{font-size:11px;letter-spacing:2px;color:#9eafc6}.tag{font-size:10px;border:1px solid #48617a;padding:6px 9px;border-radius:6px;color:#bbcee1}.game-card h3{font-size:27px;letter-spacing:2px;margin:25px 0 8px;position:relative}.game-card p{color:#9daec4;line-height:1.8;max-width:370px;position:relative;margin:0 0 22px}.game-card .card-bottom{margin-top:auto;position:relative}.meta{font-size:11px;color:#a9bbd1}.enter{color:#edc381;background:transparent;border:0;font-weight:700;letter-spacing:1px}.enter:hover{color:#fff}.page-title{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:21px;flex-wrap:wrap}.page-title h1{margin:6px 0 6px;font-size:clamp(24px,3.4vw,35px);letter-spacing:1.5px}.page-title p{color:var(--muted);margin:0;font-size:12px;line-height:1.8}.title-actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid #3a5066;background:#203248;color:#dbe6f5;border-radius:9px;padding:10px 14px;font-size:12px;transition:.15s}.btn:hover:not(:disabled){filter:brightness(1.18);border-color:#8a9baf}.btn.primary{background:linear-gradient(110deg,#d6ad69,#efc98b);border-color:#d6ad69;color:#201c15;font-weight:800}.btn.cyan{background:#1a504f;border-color:#378b83;color:#b1ffed}.btn.danger{border-color:#70484d;background:#3a202b;color:#ffb4ba}.btn.ghost{background:#102037;color:#aabed4}.btn.small{padding:6px 10px;font-size:11px}.btn.wide{width:100%}.game-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(285px,.8fr);gap:20px;align-items:start}.panel{background:linear-gradient(155deg,#15243a,#0f1b2e);border:1px solid #2a3e54;border-radius:15px;padding:21px;margin-bottom:18px;overflow:hidden}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}.panel-head h2,.panel-head h3{font-size:15px;letter-spacing:.5px;margin:0}.panel-head small{color:var(--muted);font-size:11px}.muted{color:var(--muted)}.gold{color:var(--gold)}.cyan-text{color:var(--cyan)}.red-text{color:var(--red)}.smalltext{font-size:11px;line-height:1.6}.big-num{font-weight:800;font-size:25px;letter-spacing:1px}.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat-box{padding:13px;border:1px solid #2d4058;background:#0e1c30;border-radius:10px}.stat-box small{display:block;color:#8298b2;margin-bottom:8px;font-size:10px}.stat-box b{font-size:19px}.alert{border:1px solid #5e4e34;background:#3e321f70;color:#e4cba7;border-radius:9px;padding:11px 13px;line-height:1.7;font-size:11px;margin-bottom:13px}.alert.cool{background:#17343a70;border-color:#32717d;color:#a8e5e8}.log{max-height:212px;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:5px}.log-item{background:#0b192b;border-left:2px solid #486780;padding:9px 11px;color:#a9bed3;line-height:1.55;font-size:11px}.log-item:first-child{border-color:var(--gold);color:#ecdfcb}.player-line{display:flex;gap:10px;align-items:center;background:#0f1e31;border:1px solid #2c4057;border-radius:10px;padding:10px 12px;margin-bottom:9px}.player-line.me{border-color:#b79c61}.avatar{height:34px;width:34px;border-radius:9px;display:grid;place-items:center;font-weight:800;background:#283c55;color:#c8daee;flex-shrink:0}.avatar.me{background:#7a5e36;color:#ffdf9b}.player-info{min-width:0;flex:1}.player-info b{font-size:12px;display:block}.player-info small{font-size:10px;line-height:1.7;color:#8296b0}.score{font-size:18px;font-weight:800;color:#ead2a6;white-space:nowrap}.input{width:100%;padding:10px 11px;border-radius:9px;border:1px solid #405670;background:#0c192a;color:#eff6ff;outline:none}.input:focus{border-color:#cbac73}.form-line{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.form-line .input{flex:1;min-width:65px}.label{font-size:11px;color:#a5b9ce;display:block;margin:0 0 8px}.select{padding:9px;border-radius:9px;background:#0b192c;color:#e6f2ff;border:1px solid #41556c;max-width:100%}.check{display:flex;align-items:center;gap:7px;color:#b8c9d9;font-size:12px;margin:13px 0}.check input{accent-color:#dabb7e}.mini-pills{display:flex;gap:7px;flex-wrap:wrap}.mini-pill{padding:5px 9px;border-radius:20px;background:#22364b;color:#a5c2d5;font-size:10px;border:1px solid #354d63}.divider{height:1px;background:#2a3e55;margin:14px 0}.row-between{display:flex;align-items:center;justify-content:space-between;gap:10px}.row-between.wrap{flex-wrap:wrap}.subhead{margin:17px 0 10px;color:#ebd4af;font-size:12px;font-weight:700}.rules details{border-bottom:1px solid #30445b;padding:8px 0}.rules summary{color:#c5d5e7;cursor:pointer;font-size:12px}.rules p{color:#9db0c3;font-size:11px;line-height:1.85}.empty{color:#8197b1;text-align:center;padding:30px 10px;font-size:12px}.end-banner{padding:19px;border-radius:12px;border:1px solid #957744;background:linear-gradient(110deg,#51402a88,#1c2d40);margin-bottom:16px}.end-banner h2{margin:0 0 8px;color:#f8dfac}.end-banner p{margin:0;color:#c9c3b3;line-height:1.8}.game-board{position:relative;display:grid;grid-template-columns:22px repeat(11,minmax(0,1fr));grid-template-rows:22px repeat(11,minmax(0,1fr));gap:3px;width:min(100%,650px);margin:auto;aspect-ratio:1;user-select:none}.axis{display:grid;place-items:center;color:#788da7;font-size:10px}.tile{aspect-ratio:1;border:1px solid #52617d46;border-radius:5px;position:relative;padding:0;display:grid;place-items:center;transition:background .13s}.tile.desert{background:linear-gradient(120deg,#514336,#66513b)}.tile.grass{background:linear-gradient(125deg,#2f6350,#214738)}.tile.center{background:#6e613a;box-shadow:inset 0 0 0 2px #dbb865}.tile.center:before{content:'✧';position:absolute;color:#e4c57988;font-size:23px;z-index:0}.tile.base:after{content:'⌂';position:absolute;right:2px;bottom:0;color:#d8c28b80;font-size:12px}.tile.selected{outline:3px solid #f4d285;outline-offset:-2px;z-index:2}.tile.hint{box-shadow:inset 0 0 0 3px #84e6c1aa}.tile.hint:before{content:'·';position:absolute;color:#88ead1;font-size:34px;line-height:0}.tile.last{border-color:#e1c67c;background-image:linear-gradient(#e6cf5c18,#e6cf5c18)}.piece{width:83%;height:83%;border-radius:50%;display:grid;place-items:center;z-index:1;border:2px solid #ffffff66;font-size:clamp(9px,1.5vw,21px);font-weight:900;box-shadow:0 2px 8px #090a1088}.piece.red{background:linear-gradient(145deg,#b94a51,#722f3e);color:#fff0e5}.piece.blue{background:linear-gradient(145deg,#5388d4,#28477e);color:#eff7ff}.piece.general{box-shadow:0 0 0 2px #e5c382a0,0 4px 8px #07121d}.board-caption{display:flex;justify-content:space-between;color:#a9b5c4;font-size:11px;margin:15px 8px 0}.board-note{color:#8c9eb3;font-size:11px;line-height:1.8;margin:10px 0 0}.key{display:inline-block;padding:3px 7px;background:#233951;border:1px solid #354a65;border-radius:6px;font-size:11px}.move-badge{background:#0c372e;border:1px solid #287264;color:#8ee8ce;border-radius:9px;padding:8px 11px;font-size:12px}.table-like{width:100%;border-collapse:collapse;font-size:11px}.table-like th{text-align:left;color:#849db8;font-weight:500;border-bottom:1px solid #3a4b63;padding:9px 7px}.table-like td{border-bottom:1px solid #283c51;padding:10px 7px;color:#d7e2ef}.table-like .em{color:#f4d494;font-weight:750}.hand{display:flex;flex-wrap:wrap;gap:9px}.playing-card{min-height:108px;width:93px;border:1px solid #5c7695;border-radius:10px;background:linear-gradient(145deg,#273c56,#162538);color:#e7edf5;padding:9px 7px;display:flex;flex-direction:column;justify-content:space-between;text-align:left;transition:.17s;position:relative;overflow:hidden}.playing-card:hover:not(:disabled){transform:translateY(-5px);border-color:#f4ce88}.playing-card.selected{transform:translateY(-7px);outline:2px solid #edc78b}.playing-card .card-glyph{font-size:24px;font-weight:800;color:#eed5a3}.playing-card .card-title{font-size:11px;font-weight:700;line-height:1.4}.playing-card .card-sub{font-size:9px;color:#9fb2ca;line-height:1.5}.playing-card.mine-card{width:76px;min-height:116px;align-items:center;justify-content:center;text-align:center;gap:8px}.playing-card.mine-card .card-glyph{font-size:34px}.playing-card.mine-card.evasion{border-color:#6bbfc1;background:#12383f}.playing-card.mine-card.sanction{border-color:#d36d78;background:#471f31}.playing-card.mine-card.reverse{border-color:#b38ad6;background:#2d254a}.playing-card.movie-card{width:130px;min-height:154px}.playing-card.movie-card .card-title{font-size:13px}.playing-card.movie-card .card-glyph{font-size:17px}.playing-card.movie-card .card-sub{font-size:10px}.reveal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:9px}.reveal-card{background:#14243a;border:1px solid #37516a;padding:13px 8px;border-radius:10px;text-align:center}.reveal-card.winner{border-color:#d6b36f;box-shadow:inset 0 0 16px #ebc37a17}.reveal-card strong{font-size:23px;display:block;margin:10px 0}.reveal-card small{color:#9bb0c6}.region-track{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.region{border:1px solid #354c66;border-radius:10px;background:#102035;padding:12px 7px;text-align:center;min-width:0}.region.active{border-color:#d1b67b}.region b{font-size:12px}.region strong{display:block;color:#e1c18c;font-size:23px;margin:9px 0 5px}.region small{font-size:9px;color:#91a6bf;display:block}.progress{height:5px;border-radius:10px;background:#263c52;margin-top:9px;overflow:hidden}.progress span{height:100%;display:block;background:linear-gradient(90deg,#51b9ac,#ddb978)}.market-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.plot{border:1px solid #334a61;border-radius:11px;background:linear-gradient(140deg,#1b3048,#102038);min-height:122px;padding:11px;text-align:left;color:#e2ebf6;position:relative;transition:.15s}.plot:hover{border-color:#e1bf81}.plot.selected{outline:2px solid #dbbb80}.plot .plot-zone{display:block;font-size:10px;color:#8faac1;margin-bottom:11px}.plot b{font-size:13px}.plot small{display:block;margin-top:11px;color:#94abc2}.plot .plot-owner{position:absolute;right:9px;top:9px;border-radius:5px;padding:3px 6px;font-size:10px;background:#243c54;color:#c5daed}.plot .plot-owner.me{background:#73603e;color:#ffdf9c}.plot .building{font-size:21px;margin:8px 0 -2px}.plot .plot-rust{color:#f5a39e}.rolecards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.rolecard{border:1px solid #334a62;border-radius:10px;padding:12px;background:#122237}.rolecard b{font-size:12px}.rolecard small{display:block;margin-top:6px;color:#9cb2c7;font-size:10px;line-height:1.65}.action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.action-grid button{text-align:left;min-height:50px}.phase-steps{display:flex;gap:5px;flex-wrap:wrap}.phase-steps span{border:1px solid #3c4d64;color:#7f94ae;border-radius:7px;padding:7px 10px;font-size:10px}.phase-steps .on{background:#604d32;border-color:#be9556;color:#fce2ac}.flex-col{display:flex;flex-direction:column;gap:9px}.plain-note{color:#869cb3;font-size:10px;line-height:1.7}.rule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.rule-grid .stat-box{font-size:11px;line-height:1.8}.setting-card{padding:16px;border-radius:12px;background:#0d1d30;border:1px solid #314763;margin-bottom:13px}.setting-card h3{margin:0 0 11px;font-size:15px}.setup-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px}.stars{letter-spacing:2px;color:#dcb975;font-size:13px}.toast-holder{position:fixed;right:22px;bottom:18px;z-index:100;pointer-events:none}.toast{padding:13px 18px;background:#263d50;border:1px solid #7995a8;border-radius:10px;color:#edf5fc;box-shadow:0 8px 40px #02081270;margin-top:8px;font-size:12px;max-width:340px;animation:showToast .2s ease}@keyframes showToast{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:1100px){.sidebar{width:72px;padding:23px 10px}.brand{padding:0 0 24px;justify-content:center}.brand>div:last-child,.sidebar-label,.nav-item span:not(.nav-icon),.sidebar-bottom{display:none}.nav-item{justify-content:center;padding:12px 5px}.main-wrapper{max-width:calc(100% - 72px)}.game-layout{grid-template-columns:minmax(0,1fr) 270px}.market-list{grid-template-columns:repeat(3,1fr)}}@media(max-width:800px){.game-layout{grid-template-columns:1fr}.game-grid{grid-template-columns:1fr}.game-board{max-width:600px}.topbar{padding:0 18px}.game-card{min-height:215px}.hero:after{opacity:.35}.market-list{grid-template-columns:repeat(3,1fr)}}@media(max-width:540px){.sidebar{width:54px;padding:14px 4px}.brand-symbol{width:37px;height:37px;font-size:24px}.main-wrapper{max-width:calc(100% - 54px)}.topbar{height:58px}.breadcrumb{font-size:10px}.breadcrumb span:first-child,.top-actions .subtle,.status-pill{display:none}main{padding:16px 12px}.hero{padding:24px;min-height:225px}.hero h1{font-size:28px}.hero p{font-size:12px}.hero-stats{gap:12px;flex-wrap:wrap}.hero-stats b{font-size:16px}.panel{padding:13px}.section-head h2{font-size:20px}.game-board{grid-template-columns:16px repeat(11,minmax(0,1fr));grid-template-rows:16px repeat(11,minmax(0,1fr));gap:2px}.axis{font-size:8px}.tile{border-radius:2px}.piece{border-width:1px;font-size:clamp(9px,3vw,14px)}.market-list{grid-template-columns:repeat(2,1fr)}.region-track{gap:4px}.region{padding:10px 2px}.region b{font-size:10px}.region strong{font-size:19px}.foot{flex-wrap:wrap}.playing-card.movie-card{width:calc(50% - 6px)}.game-card h3{font-size:23px}}
+
+</style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-symbol">◈</div><div><strong>智斗群游</strong><small>STRATEGY ARENA</small></div></div>
+      <div class="sidebar-label">GAME LIBRARY · 04</div>
+      <nav class="navigation" id="navigation">
+        <button class="nav-item active" data-act="home"><span class="nav-icon">▦</span><span>竞技大厅</span><span class="nav-short">HOME</span></button>
+        <button class="nav-item" data-act="go" data-game="grain"><span class="nav-icon">♞</span><span>粮草先行</span><span class="nav-short">01</span></button>
+        <button class="nav-item" data-act="go" data-game="estate"><span class="nav-icon">▥</span><span>地产大亨</span><span class="nav-short">02</span></button>
+        <button class="nav-item" data-act="go" data-game="movie"><span class="nav-icon">◉</span><span>逐梦梅莱坞</span><span class="nav-short">03</span></button>
+        <button class="nav-item" data-act="go" data-game="mine"><span class="nav-icon">◆</span><span>矿产风云</span><span class="nav-short">04</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="online-dot"><span></span> AI 战略引擎已就绪</div>
+        <div class="side-line">本地运行 · 无需注册</div>
+        <div class="side-line">规则原型 <b>v0.9</b></div>
+      </div>
+    </aside>
+    <div class="main-wrapper">
+      <header class="topbar"><div class="breadcrumb"><span>冽日疾星 · 桌游实验室</span><span class="slash">/</span><strong id="crumb">竞技大厅</strong></div><div class="top-actions"><span class="status-pill"><span class="pulse"></span> SOLO VS AI</span><button class="subtle" data-act="home">◈ 返回大厅</button></div></header>
+      <main id="app" aria-live="polite"></main>
+      <footer class="foot"><span>© 智斗群游 · 四款原创规则的可交互原型</span><span>所有 AI 决策均在浏览器本地执行 · 无联网/账号服务</span></footer>
+    </div>
+  </div>
+  <div class="toast-holder" id="toasts" aria-live="assertive"></div>
+  <script>
+'use strict';
+/* 智斗群游 v0.9 — 无框架单机原型。AI 均为可检查的本地策略算法，并非远程 GPT API。 */
+const $=s=>document.querySelector(s);
+const ESC=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cap=(n,a,b)=>Math.max(a,Math.min(b,n));
+const rnd=(a=1)=>Math.random()*a;
+const ri=(n)=>Math.floor(Math.random()*n);
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=ri(i+1);[a[i],a[j]]=[a[j],a[i]];}return a};
+const money=n=>Number(n||0).toFixed(1).replace(/\.0$/,'');
+const button=(label,act,props='',kind='')=>`<button class="btn ${kind}" data-act="${act}" ${props}>${label}</button>`;
+const logs=(a)=>`<div class="log">${a.slice(0,12).map(x=>`<div class="log-item">${ESC(x)}</div>`).join('')||'<div class="empty">暂无战报</div>'}</div>`;
+const pline=(name,extra,score,me=false)=>`<div class="player-line ${me?'me':''}"><div class="avatar ${me?'me':''}">${me?'我':'AI'}</div><div class="player-info"><b>${ESC(name)} ${me?'· 你':''}</b><small>${ESC(extra)}</small></div><div class="score">${ESC(score)}</div></div>`;
+const panel=(title,body,right='')=>`<section class="panel"><div class="panel-head"><h3>${title}</h3><small>${right}</small></div>${body}</section>`;
+const head=(title,description,actions='')=>`<div class="page-title"><div><div class="eyebrow">STRATEGY ARENA / AI CHALLENGE</div><h1>${title}</h1><p>${description}</p></div><div class="title-actions">${actions}</div></div>`;
+const GAME_INFO={
+ grain:{name:'粮草先行',eng:'THE GRAIN FRONT',number:'01',tag:'棋盘 · 战术围猎',description:'11×11 的荒漠攻防。以最小的兵力调动，撬动整张棋盘。',players:'1 VS 1',duration:'15–25 分钟',ai:'搜索推演 + 战术评估',icon:'♞'},
+ estate:{name:'地产大亨',eng:'RUST & SHINE',number:'02',tag:'商业 · 双重账本',description:'1936 年的樊州，白账可以买下城市，黑账可能吞噬你的命运。',players:'3–5 位',duration:'60+ 分钟',ai:'收益模拟 + 风险规避',icon:'▥'},
+ movie:{name:'逐梦梅莱坞',eng:'DREAM FACTORY',number:'03',tag:'电影 · 竞拍博弈',description:'四轮电影版权拍卖。出价只是开始，真正的胜负在市场清算。',players:'4 位 / 炒作 5 位',duration:'30–45 分钟',ai:'价值预测 + 预算控制',icon:'◉'},
+ mine:{name:'矿产风云',eng:'MINERAL EMPIRE',number:'04',tag:'竞标 · 心理预判',description:'九轮争夺，预测胜场，押注矿权。你能看穿对手的牌吗？',players:'3–5 位',duration:'25–35 分钟',ai:'概率计算 + 出牌规划',icon:'◆'}
+};
+const CFG={grain:{difficulty:'hard'},estate:{players:4,role:'shi'},movie:{hype:false},mine:{players:5,difficulty:'hard'}};
+let current='home',state=null;
+function notify(s){const t=document.createElement('div');t.className='toast';t.textContent=s;$('#toasts').appendChild(t);setTimeout(()=>t.remove(),2400)}
+function home(){current='home';state=null;render()}
+function go(key){if(!GAME_INFO[key])return;current=key;state=null;render()}
+function startGame(){if(current==='grain')grainStart();if(current==='mine')mineStart();if(current==='movie')movieStart();if(current==='estate')estateStart();render()}
+function render(){const nav=$('#navigation');nav.querySelectorAll('.nav-item').forEach(x=>x.classList.toggle('active',current==='home'?x.dataset.act==='home':x.dataset.game===current));$('#crumb').textContent=current==='home'?'竞技大厅':GAME_INFO[current].name;
+ const view=current==='home'?homeView():!state?setupView():current==='grain'?grainView():current==='mine'?mineView():current==='movie'?movieView():estateView();$('#app').innerHTML=view;}
+function homeView(){return `<div class="hero"><div class="eyebrow">ORIGINAL STRATEGY BOARD GAMES</div><h1>四重棋局，<em>一念定乾坤。</em></h1><p>当规则遇上博弈，当直觉遇上算法。走进四个原创策略世界，挑战拥有不同性格和决策逻辑的 AI 对手。</p><div class="hero-stats"><span><b>04</b> 原创桌游</span><span><b>100%</b> 本地交互</span><span><b>AI</b> 战术对抗</span></div></div><div class="section-head"><div><div class="eyebrow">SELECT YOUR BATTLEGROUND</div><h2>选择你的战场</h2></div><small>点击任意作品配置一场新对局</small></div><div class="game-grid">${Object.entries(GAME_INFO).map(([k,v])=>`<article class="game-card ${k}"><div class="card-top"><span class="card-number">GAME / ${v.number}　${v.eng}</span><span class="tag">${v.tag}</span></div><h3>${v.icon}　${v.name}</h3><p>${v.description}</p><div class="card-bottom"><span class="meta">${v.players}　·　${v.duration}</span><button class="enter" data-act="go" data-game="${k}">进入游戏　↗</button></div></article>`).join('')}</div>${panel('原型说明',`<p class="board-note">这是直接运行在浏览器里的单机策略游戏平台。四款游戏均提供真实的回合循环与可操作 AI 对手；其中《粮草先行》规则相对完备，严格按给定走法实现。《地产大亨》缺少各区地价、收益、资源数值等定量规则，已明确采用可调整的演示平衡参数。未提供云端账号、真人联网匹配或 GPT 模型 API 接口。</p><div class="mini-pills"><span class="mini-pill">无需注册</span><span class="mini-pill">离线可运行</span><span class="mini-pill">桌面 / 手机适配</span><span class="mini-pill">可阅读源码</span></div>`,'ABOUT THIS BUILD')}`}
+const ROLE_DATA={shi:{name:'时听明',title:'城市规划 · 双面人'},bai:{name:'白子虑',title:'融资通道 · 精密计算'},tang:{name:'唐玮恭',title:'警方关系 · 武装吞并'},yama:{name:'山口健一',title:'工业机器 · 潘多拉魔盒'},spy:{name:'史翠珊的影子',title:'地头蛇 · 情报网络'}};
+function setupView(){const v=GAME_INFO[current];let body='';if(current==='grain')body=`<div class="setting-card"><h3>AI 对手强度</h3><select class="select" data-config="difficulty"><option value="casual">新兵 · 1 层推演</option><option value="normal">谋士 · 2 层推演</option><option value="hard" selected>军师 · 3 层推演</option></select><p class="plain-note">你执红方先行，AI 执蓝方。点击棋子，再点高亮位置即可走子。</p></div><div class="alert cool">核心战术完整：将 / 马 / 兵移动、马的双邻接条件、一次己方吃子、狭路相逢、四种获胜条件。</div>`;
+if(current==='mine')body=`<div class="setting-card"><h3>参赛势力</h3><select class="select" data-config="players">${[3,4,5].map(n=>`<option value="${n}" ${n===CFG.mine.players?'selected':''}>${n} 家势力（你 + ${n-1} 个 AI）</option>`).join('')}</select><h3 style="margin-top:16px">AI 对手强度</h3><select class="select" data-config="difficulty"><option value="casual">新兵</option><option value="normal">谋士</option><option value="hard" selected>军师 · 胜率评估</option></select></div><div class="alert cool">九轮、每轮 1 至 9 张牌、先预判再亮牌，终局最低分淘汰；支持外交密令。</div>`;
+if(current==='movie')body=`<div class="setting-card"><h3>拍卖赛制</h3><label class="check"><input type="checkbox" data-config="hype" ${CFG.movie.hype?'checked':''}> 启用炒作玩家（额外公开手牌）</label><p class="plain-note">标准：你 + 3 位 AI 投资人。炒作：再加入 1 位不竞拍的炒作玩家。此原型的炒作玩家只拿 9 张初始牌，以解决 80 张牌无法满足 5 人共 85 张发牌需求的问题。</p></div><div class="alert cool">80 部电影、地区累计价值、四轮银行结算及五种竞拍方式均可交互体验。</div>`;
+if(current==='estate')body=`<div class="setting-card"><h3>选择操盘手</h3><select class="select" data-config="role">${Object.entries(ROLE_DATA).map(([k,v])=>`<option value="${k}" ${k===CFG.estate.role?'selected':''}>${v.name} · ${v.title}</option>`).join('')}</select><h3 style="margin-top:16px">参与人数</h3><select class="select" data-config="players">${[3,4,5].map(n=>`<option value="${n}" ${n===CFG.estate.players?'selected':''}>${n} 人（你 + ${n-1} 个 AI）</option>`).join('')}</select></div><div class="alert">开发提示：原规则尚未规定具体地价、建筑成本、事件频率、完整牌库及骰子检定表。本作采用明确标记的<strong>演示参数</strong>，保留 8 回合、昼夜四阶段、双账本、锈迹与五位角色特色。</div>`;
+return `${head(v.name,`${v.eng}　/　${v.description}`,button('返回大厅','home','','ghost'))}<div class="game-layout"><div>${panel('组建对局',`<div class="eyebrow">MATCH CONFIGURATION</div><h2 style="font-size:26px;margin:12px 0">准备开始你的博弈</h2><p class="muted" style="line-height:1.9">AI 将按照局势、剩余资源和对手的行为自主决策。游戏中的信息差也会得到保留——AI 不会直接读取你尚未公开的手牌。</p>${body}<div class="setup-actions">${button('开启对局　↗','start','','primary')}${button('返回大厅','home','','ghost')}</div>`)}${panel('设计核心',`<div class="rule-grid"><div class="stat-box"><b>引擎</b><p class="plain-note">自研规则判定和局内状态机，不依赖联网模型。</p></div><div class="stat-box"><b>对抗</b><p class="plain-note">棋类搜索、概率估算、经济收益与风险评估。</p></div><div class="stat-box"><b>公平</b><p class="plain-note">卡牌游戏中保留秘密信息与同时出牌原则。</p></div><div class="stat-box"><b>沉浸</b><p class="plain-note">动态战报、回合进度、分数和对手性格。</p></div></div>`)} </div><aside>${panel('本局资料',`<div class="stat-row"><div class="stat-box"><small>人数</small><b>${v.players}</b></div><div class="stat-box"><small>时长</small><b style="font-size:12px">${v.duration}</b></div><div class="stat-box"><small>场次</small><b>单机</b></div></div><div class="divider"></div><div class="subhead">AI 战略模型</div><p class="board-note">${v.ai}</p>`)}${panel('玩法特性',`<div class="flex-col"><span class="mini-pill">◆ 完整交互式棋局</span><span class="mini-pill">◆ 自动战术决策</span><span class="mini-pill">◆ 内置可视化规则</span><span class="mini-pill">◆ 战局可重开</span></div>`,'LOCAL ENGINE')}</aside></div>`}
+function configChanged(e){const el=e.target;if(!el.matches('[data-config]')||!CFG[current])return;CFG[current][el.dataset.config]=el.type==='checkbox'?el.checked:(el.dataset.config==='players'?Number(el.value):el.value)}
+/* ───── 01 粮草先行：规则引擎 ───── */
+const GDIR=[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+const gin=(x,y)=>x>=0&&x<11&&y>=0&&y<11;
+const grass=(x,y)=>x>=3&&x<=7&&y>=3&&y<=7;
+const ghome=t=>t==='red'?[0,0]:[10,10];
+const gother=t=>t==='red'?'blue':'red';
+const gc=(x,y)=>String.fromCharCode(65+x)+(y+1);
+const gPieceAt=(g,x,y)=>g.pieces.find(p=>p.alive&&p.x===x&&p.y===y);
+const gAlive=(g,t,kind)=>g.pieces.filter(p=>p.alive&&p.team===t&&(!kind||p.type===kind));
+const gAdj=(a,b)=>a&&b&&Math.max(Math.abs(a.x-b.x),Math.abs(a.y-b.y))===1;
+function gLegal(g,team){const moves=[];for(const p of gAlive(g,team))for(const m of gMoves(g,p))moves.push(m);return moves}
+function gMoves(g,p){const out=[];if(!p||!p.alive)return out;
+ const at=(x,y,extras={})=>({id:p.id,from:[p.x,p.y],to:[x,y],...extras});
+ if(p.type==='soldier'||p.type==='horse'){
+  if(p.type==='soldier')for(const [dx,dy] of GDIR){const x=p.x+dx,y=p.y+dy;if(!gin(x,y)||gPieceAt(g,x,y))continue;const home=ghome(p.team);if(x===home[0]&&y===home[1])continue;out.push(at(x,y));}
+  if(p.type==='horse'){
+   const supports=(x,y)=>gAlive(g,p.team).some(q=>q.id!==p.id&&(q.type==='soldier'||q.type==='general')&&Math.max(Math.abs(x-q.x),Math.abs(y-q.y))===1);
+   // 草场终点：只可迈出一步；即使马在荒漠，也可从边界走入草场。
+   for(const [dx,dy] of GDIR){const x=p.x+dx,y=p.y+dy;if(!gin(x,y)||!grass(x,y)||gPieceAt(g,x,y))continue;out.push(at(x,y));}
+   // 荒漠终点：正交直线不限距离，路径空；起点和终点皆需己方兵/将支持。
+   if(supports(p.x,p.y))for(const [dx,dy] of [[0,-1],[0,1],[-1,0],[1,0]])for(let st=1;st<=10;st++){
+    const x=p.x+dx*st,y=p.y+dy*st;if(!gin(x,y)||gPieceAt(g,x,y))break;
+    if(grass(x,y))continue;
+    const home=ghome(p.team);if(x===home[0]&&y===home[1])continue;
+    if(supports(x,y))out.push(at(x,y));
+   }
+  }
+  return out;
+ }
+ if(p.type==='general')for(const [dx,dy] of GDIR)for(let st=1;st<=3;st++){
+  const x=p.x+dx*st,y=p.y+dy*st;if(!gin(x,y))break;
+  const q=gPieceAt(g,x,y);
+  if(q){if(q.type!=='general'&&(q.team!==p.team||!g.used[p.team]))out.push(at(x,y,{captured:q.id,eatOwn:q.team===p.team}));break}
+  out.push(at(x,y));
+ }
+ return out;
+}
+function gClone(g){return {pieces:g.pieces.map(p=>({...p})),used:{...g.used},turn:g.turn,winner:g.winner||null,reason:g.reason||'',last:g.last||null,duel:false};}
+function gSim(g,m){const n=gClone(g);if(n.winner)return n;const p=n.pieces.find(q=>q.id===m.id);if(!p)return n;
+ if(m.captured){const q=n.pieces.find(q=>q.id===m.captured);if(q){q.alive=false;if(m.eatOwn)n.used[p.team]=true;}}
+ p.x=m.to[0];p.y=m.to[1];n.last=m;
+ const enemy=gother(p.team),a=gAlive(n,enemy,'general')[0];
+ if(p.type==='general'&&gAdj(p,a)){
+  p.alive=false;if(a){[a.x,a.y]=ghome(enemy);}n.duel=true;n.reason='狭路相逢：主动靠近的一方将领阵亡，对方将领退回大本营。';
+ }else{
+  if(p.type==='horse'&&p.x===5&&p.y===5){n.winner=p.team;n.reason='马踏粮心 · 战马进入 F6';}
+  else if(!gAlive(n,enemy,'horse').length&&!gAlive(n,enemy,'soldier').length){n.winner=p.team;n.reason='全歼敌骑 · 敌方马、兵全灭';}
+  else if(gAlive(n,p.team).length&&gAlive(n,p.team).every(q=>grass(q.x,q.y))){n.winner=p.team;n.reason='草场割据 · 存活棋子全部进入草场';}
+  else if(p.x===ghome(enemy)[0]&&p.y===ghome(enemy)[1]){n.winner=p.team;n.reason='直捣黄龙 · 攻占敌方大本营';}
+ }
+ n.turn=enemy;return n;
+}
+function grainStart(){state={pieces:[
+ {id:'rG',team:'red',type:'general',x:0,y:0,alive:true},{id:'rH',team:'red',type:'horse',x:1,y:1,alive:true},
+ {id:'r1',team:'red',type:'soldier',x:0,y:1,alive:true},{id:'r2',team:'red',type:'soldier',x:1,y:0,alive:true},{id:'r3',team:'red',type:'soldier',x:2,y:2,alive:true},
+ {id:'bG',team:'blue',type:'general',x:10,y:10,alive:true},{id:'bH',team:'blue',type:'horse',x:9,y:9,alive:true},
+ {id:'b1',team:'blue',type:'soldier',x:9,y:10,alive:true},{id:'b2',team:'blue',type:'soldier',x:10,y:9,alive:true},{id:'b3',team:'blue',type:'soldier',x:8,y:8,alive:true}
+ ],used:{red:false,blue:false},turn:'red',winner:null,reason:'',selected:null,last:null,log:['战局开启 · 红方先行。'],history:[],step:0,hint:null,thinking:false};}
+function gEval(g,team){if(g.winner)return g.winner===team?100000:-100000;
+ const eva=t=>{let v=0;for(const p of gAlive(g,t)){
+  if(p.type==='general')v+=55;else if(p.type==='horse')v+=140;else v+=42;
+  if(grass(p.x,p.y))v+=p.type==='horse'?30:13;
+  const d=Math.max(Math.abs(p.x-5),Math.abs(p.y-5));
+  if(p.type==='horse')v+=58-d*11;if(p.type==='soldier')v+=18-d*3;
+  if(p.type==='general'){
+   const eh=ghome(gother(t));v+=20-Math.max(Math.abs(p.x-eh[0]),Math.abs(p.y-eh[1]))*1.8;
+  }
+ }if(g.used[t])v-=7;return v;};return eva(team)-eva(gother(team));}
+function gSearch(g,depth,root,alpha=-1e9,beta=1e9){if(depth===0||g.winner)return gEval(g,root);const moves=gLegal(g,g.turn);if(!moves.length)return g.turn===root?-90000:90000;
+ const maximizing=g.turn===root;let best=maximizing?-1e9:1e9;
+ const ranked=moves.map(m=>{const n=gSim(g,m);let sc=gEval(n,root);return {m,n,sc}}).sort((a,b)=>maximizing?b.sc-a.sc:a.sc-b.sc).slice(0,depth>=2?11:8);
+ for(const {n} of ranked){const val=gSearch(n,depth-1,root,alpha,beta);if(maximizing){best=Math.max(best,val);alpha=Math.max(alpha,best)}else{best=Math.min(best,val);beta=Math.min(beta,best)}if(alpha>=beta)break;}return best;
+}
+function gChoose(g,team,mode='hard'){const moves=gLegal(g,team);if(!moves.length)return null;
+ const limit=mode==='casual'?1:mode==='normal'?2:3;
+ const rated=moves.map(m=>({m,n:gSim(g,m)}));rated.sort((a,b)=>gEval(b.n,team)-gEval(a.n,team));const top=rated.slice(0,limit===1?20:limit===2?24:23);
+ let best=null;for(const r of top){const val=gSearch(r.n,limit-1,team)+((mode==='casual'?30:mode==='normal'?4:.5)*(rnd(2)-1));if(!best||val>best.score)best={move:r.m,score:val};}return best;
+}
+function gDo(m,ai=false){const old=state;if(old.winner)return;if(!ai)old.history.push({board:gClone(old),step:old.step,log:[...old.log]});
+ const actor=old.turn;const n=gSim(old,m);const p=old.pieces.find(q=>q.id===m.id);
+ const words=actor==='red'?'你':'AI';let msg=`${words}：${p.type==='general'?'将':p.type==='horse'?'马':'兵'} ${gc(...m.from)} → ${gc(...m.to)}`;
+ if(m.captured)msg+=m.eatOwn?' · 使用唯一一次己方吃子':' · 吃掉对方棋子';if(n.duel)msg+=' · 狭路相逢！';if(n.winner)msg+=' · '+n.reason;
+ Object.assign(old,n,{step:old.step+1,selected:null,hint:null,thinking:false,log:[msg,...old.log],history:old.history});
+ if(!old.winner&&!gLegal(old,old.turn).length){old.winner=actor;old.reason='对手无合法走法（原型补充判负规则）';old.log.unshift(old.reason)}
+ render();if(old.turn==='blue'&&!old.winner){old.thinking=true;render();setTimeout(()=>{if(current!=='grain'||state!==old||old.winner||!old.thinking)return;const pick=gChoose(old,'blue',CFG.grain.difficulty);old.thinking=false;if(pick)gDo(pick.move,true);else{old.winner='red';old.reason='AI 无合法走法';render();}},240)}
+}
+function grainClick(x,y){const g=state;if(g.turn!=='red'||g.winner||g.thinking)return;
+ const q=gPieceAt(g,x,y);if(g.selected){const p=g.pieces.find(p=>p.id===g.selected);const m=gMoves(g,p).find(m=>m.to[0]===x&&m.to[1]===y);if(m){gDo(m);return;}}
+ g.selected=q&&q.team==='red'?q.id:null;g.hint=null;render();}
+function grainHint(){if(state.turn!=='red'||state.winner)return;const choice=gChoose(state,'red',CFG.grain.difficulty);if(choice){state.selected=choice.move.id;state.hint=choice.move.to;notify(`军师建议：${gc(...choice.move.from)} → ${gc(...choice.move.to)}`);render()}}
+function grainUndo(){const g=state;if(!g.history.length)return notify('没有可以撤回的回合');const prev=g.history.pop();Object.assign(g,prev.board,{selected:null,log:prev.log,step:prev.step,hint:null,thinking:false,history:g.history});render();}
+function grainView(){const g=state;let cell='<span class="axis"></span>'+[...'ABCDEFGHIJK'].map(c=>`<span class="axis">${c}</span>`).join('');for(let y=0;y<11;y++){cell+=`<span class="axis">${y+1}</span>`;for(let x=0;x<11;x++){
+ const p=gPieceAt(g,x,y),selected=g.selected===p?.id,hints=g.selected?gMoves(g,g.pieces.find(z=>z.id===g.selected)):[],hint=hints.some(m=>m.to[0]===x&&m.to[1]===y);const last=g.last&&g.last.to[0]===x&&g.last.to[1]===y;
+ cell+=`<button aria-label="${gc(x,y)}${p?' '+p.team+' '+p.type:''}" class="tile ${grass(x,y)?'grass':'desert'} ${x===5&&y===5?'center':''} ${(x===0&&y===0)||(x===10&&y===10)?'base':''} ${selected?'selected':''} ${hint?'hint':''} ${last?'last':''}" data-act="grain-cell" data-x="${x}" data-y="${y}">${p?`<span class="piece ${p.team} ${p.type==='general'?'general':''}">${p.type==='general'?'将':p.type==='horse'?'马':'兵'}</span>`:''}</button>`;
+ }}let status=g.winner?`<div class="end-banner"><h2>${g.winner==='red'?'🏆 你获得胜利':'AI 赢得了这局对抗'}</h2><p>${g.reason}</p></div>`:`<div class="alert ${g.turn==='red'?'cool':''}">${g.turn==='red'?'轮到你落子 · 点击红色棋子，然后选择高亮目标':'AI 正在推演局面……'}　${g.hint?'· 已标出建议走法':''}</div>`;
+ const ru=`<div class="rules"><details open><summary>四种即时获胜方式</summary><p>战马移动至 F6；歼灭敌方全部马与兵；存活己方棋子全部进入 D–H × 4–8；任意棋子进入敌方营地。</p></details><details><summary>将 / 马 / 兵走法</summary><p>将：直线八向 1–3 格、不可跨子，可吃敌方兵马，整局可吃一次己方兵马；马：终点位于草场则八向一步，否则荒漠终点仅横竖直线、始末均需己方兵或将相邻；兵：八向一步，不可吃子。</p></details><details><summary>狭路相逢</summary><p>将走完后若与对方将八向相邻，主动走子的将立刻阵亡，对方将返回自己的大本营。</p></details><details><summary>原型补充判定</summary><p>兵马不可停己方营地，但可攻入敌方营地获胜。将可以占本营。若轮到某方而无合法走法，该方判负。将吃子仅允许终点占据，不允许跨越。</p></details></div>`;
+ return `${head('粮草先行',`第 ${g.step+1} 手 · ${g.turn==='red'?'红方': '蓝方'}行动中`,`${button('AI 提示','grain-hint',g.turn!=='red'||g.winner?'disabled':'','ghost')}${button('悔棋','grain-undo',!g.history.length?'disabled':'','ghost')}${button('重开棋局','start','','')}`)}<div class="game-layout"><div>${panel('荒原 · 11 × 11',`${status}<div class="game-board">${cell}</div><div class="board-caption"><span>⌂ A1 · 红方大本营</span><span>✧ F6 · 粮心</span><span>⌂ K11 · 蓝方大本营</span></div>`,'DESERT FRONTIER')}${panel('棋规速查',ru)}</div><aside>${panel('实时战力',`<div class="stat-row"><div class="stat-box"><small>红方剩余</small><b>${gAlive(g,'red').length}/5</b></div><div class="stat-box"><small>蓝方剩余</small><b>${gAlive(g,'blue').length}/5</b></div><div class="stat-box"><small>总行动</small><b>${g.step}</b></div></div><div class="divider"></div>${pline('你 · 红方',`己方吃子机会：${g.used.red?'已使用':'1 / 1'}`,gAlive(g,'red','horse').length?'♞':'×',true)}${pline('军师 AI · 蓝方',`己方吃子机会：${g.used.blue?'已使用':'1 / 1'}`,gAlive(g,'blue','horse').length?'♞':'×')}`,'LIVE')}${panel('战局记录',logs(g.log),'LAST ACTIONS')}${panel('战略提醒',`<p class="board-note">AI 通过局面估值和带剪枝的极大极小搜索选择落子，优先识别一步胜利和立即威胁。困难模式约三层推演，并非通过读取你的意图作弊。</p>`,'AI INTELLIGENCE')}</aside></div>`;
+}
+/* ───── 04 矿产风云：9 轮 45 张牌 × 玩家数 ───── */
+const mineralDeck=()=>{const normals=Array.from({length:40},(_,i)=>i+1).filter(n=>![11,22,33].includes(n));const first=normals.splice(ri(normals.length),1)[0];return [first,...shuffle([...normals,0,0,0,0,'S',11,22,33])];};
+const mineName=i=>['你 · 太叹能源','北境矿业 AI','远海联合 AI','赤峰资源 AI','星陆矿权 AI'][i];
+function mineStart(){const n=CFG.mine.players;state={round:1,phase:'predict',lead:0,sub:0,last:[],players:Array.from({length:n},(_,i)=>({name:mineName(i),score:0,deck:mineralDeck(),hand:[],guess:null,secret:false,secretUsed:false,wins:0})),log:['新一届全球矿权招标正式开启。']};mineDeal();}
+function mineDeal(){for(const p of state.players){p.hand=p.deck.splice(0,state.round);p.wins=0;p.guess=null;p.secret=false;}state.sub=0;state.phase='predict';state.last=[];state.log.unshift(`第 ${state.round} 轮开始：每位势力获得 ${state.round} 张新竞标牌。`);}
+const minePower=c=>c==='S'?.9:c===0?.18:[11,22,33].includes(c)?.48:Math.pow(Number(c)/40,1.35);
+function mineProb(c,n){let p=minePower(c);if(c==='S')p=.89;if(c===0)p=.13;if([11,22,33].includes(c))p=.33;return cap(Math.pow(p,Math.max(.7,(n-1)*.68)),.02,.97);}
+function mineAIguess(p){const n=state.players.length,ps=p.hand.map(c=>mineProb(c,n));let dp=[1];for(const pr of ps){const nd=Array(dp.length+1).fill(0);for(let i=0;i<dp.length;i++){nd[i]+=dp[i]*(1-pr);nd[i+1]+=dp[i]*pr;}dp=nd;}
+ let best=0,bestVal=-1e10;for(let guess=0;guess<=p.hand.length;guess++){let v=0;for(let wins=0;wins<=p.hand.length;wins++){const award=guess===0?(wins===0?state.round:-state.round):guess===wins?2*wins:-2*Math.abs(guess-wins);v+=dp[wins]*award;}v+=rnd(CFG.mine.difficulty==='casual'?2:.3);if(v>bestVal){bestVal=v;best=guess;}}return best;}
+function minePredict(){const v=Number($('#mine-guess')?.value);if(!Number.isInteger(v)||v<0||v>state.round)return notify(`预测值必须是 0—${state.round} 的整数`);const p=state.players[0];p.guess=v;p.secret=!!$('#mine-secret')?.checked;if(p.secret)p.secretUsed=true;
+ for(const q of state.players.slice(1)){q.guess=mineAIguess(q);if(!q.secretUsed&&state.round>=4&&rnd()<.14){q.secret=true;q.secretUsed=true;}}
+ state.phase='play';state.log.unshift(`各方预判提交。${p.secret?'你启用了外交密令，预判暂不公开。':'你的预判为 '+v+' 胜。'}`);render();}
+function mineAIcard(p){const need=p.guess-p.wins, slots=p.hand.length;if(slots===1)return p.hand[0];
+ let best=null,bestScore=-1e10;for(const c of p.hand){const prob=mineProb(c,state.players.length);
+  const urgency=cap(need/slots,0,1);const position=urgency>.67?prob:urgency<.25?-prob:-Math.abs(prob-(urgency+.1));
+  const caution=(c==='S'&&state.sub===0?-.08:0)+(c===0&&urgency>.66?-.17:0);
+  const randomness=(CFG.mine.difficulty==='casual'?.45:CFG.mine.difficulty==='normal'?.16:.035)*(rnd(2)-1);
+  const score=position+caution+randomness;if(score>bestScore){bestScore=score;best=c;}}
+ return best;
+}
+function mineResolveWinner(cards){const N=cards.length,order=Array.from({length:N},(_,j)=>(state.lead+j)%N);const by=i=>cards[i];const sanctions=order.filter(i=>by(i)==='S');const evasion=order.filter(i=>by(i)===0);let winner,reason='';
+ if(sanctions.length&&evasion.length){winner=evasion[0];reason='战略避险成功克制终极制裁';}
+ else if(sanctions.length){winner=sanctions[0];reason='终极制裁压制所有普通竞标';}
+ else {const reversal=cards.filter(c=>[11,22,33].includes(c)).length;const low=reversal%2===1;const values=cards.map(c=>Number(c));let best=low?Math.min(...values):Math.max(...values);winner=order.find(i=>Number(by(i))===best);reason=`${reversal} 张政策反转 · ${low?'小牌获胜':'大牌获胜'}`;}
+ return {winner,reason};}
+function minePlay(index){if(state.phase!=='play')return;const p=state.players[0];if(index<0||index>=p.hand.length)return;const cards=[p.hand.splice(index,1)[0]];for(const ai of state.players.slice(1)){const chosen=mineAIcard(ai);ai.hand.splice(ai.hand.indexOf(chosen),1);cards.push(chosen);}
+ const result=mineResolveWinner(cards);state.players[result.winner].wins++;state.last={cards,winner:result.winner,reason:result.reason};state.lead=result.winner;state.sub++;
+ state.log.unshift(`标段 ${state.sub}/${state.round}：${state.players[result.winner].name} 夺标；${result.reason}。`);
+ if(state.sub>=state.round)mineSettle();else state.phase='reveal';render();}
+function mineSettle(){const s=state;for(const p of s.players){let change;if(p.guess===0)change=p.wins===0?s.round:-s.round;else change=p.guess===p.wins?2*p.wins:-2*Math.abs(p.guess-p.wins);
+ if(p.secret&&p.guess!==p.wins)change*=2;p.score+=change;p.lastChange=change;}
+ s.phase='summary';s.log.unshift(`第 ${s.round} 轮结算完成：${s.players.map(p=>`${p.name} ${p.lastChange>=0?'+':''}${p.lastChange}`).join(' / ')}`);}
+function mineNext(){if(state.phase==='reveal')state.phase='play';else if(state.phase==='summary'){if(state.round===9)state.phase='end';else{state.round++;mineDeal();}}render();}
+const mineCard=c=>c==='S'?['⚠','终极制裁','sanction']:c===0?['◈','战略避险','evasion']:[11,22,33].includes(c)?[String(c),'政策反转','reverse']:[String(c),'矿产资质','normal'];
+function mineView(){const s=state,p=s.players[0],end=s.phase==='end';const rank=[...s.players].map((p,i)=>({...p,i})).sort((a,b)=>b.score-a.score||a.i-b.i);const eliminated=rank[rank.length-1];
+ const top=head('矿产风云',`第 ${s.round} / 9 轮 · ${s.phase==='predict'?'秘密预判':s.phase==='play'?'竞标出牌':s.phase==='reveal'?'标段结果':s.phase==='summary'?'本轮结算':'最终战绩'}`,button('重新发牌','start','','ghost'));
+ let content='';if(end)content=`<div class="end-banner"><h2>全球矿权博弈 · 尘埃落定</h2><p>${rank[0].i===0?'你拿下全球矿权霸主！':`冠军归属于 ${rank[0].name}。`}　${eliminated.name} 最低分出局。</p></div><div class="flex-col">${rank.map((x,i)=>pline(x.name,i===rank.length-1?'淘汰 · 不参与正式排名':i===0?'全球矿权霸主':i===1?'矿业巨头':i===2?'区域新贵':'竞标势力',x.score+' 分',x.i===0)).join('')}</div>`;
+ else if(s.phase==='predict')content=`<div class="alert cool">第 ${s.round} 轮共 ${s.round} 个标段。预判准确时获得双倍胜场分，预判失准则根据差额扣分。</div><div class="subhead">本轮手牌：请先估计能赢下几个标段</div><div class="form-line"><input class="input" id="mine-guess" type="number" min="0" max="${s.round}" step="1" value="${Math.max(0,Math.floor(s.round/s.players.length))}" style="max-width:105px"><span class="muted">胜 / ${s.round} 标段</span></div><label class="check"><input type="checkbox" id="mine-secret" ${p.secretUsed?'disabled':''}> 启用外交密令（${p.secretUsed?'已使用':'整局一次：隐藏预测，失误罚分×2'}）</label><div class="setup-actions">${button('锁定预判并亮牌','mine-predict','','primary')}</div>`;
+ else if(s.phase==='play')content=`<div class="alert cool">标段 ${s.sub+1} / ${s.round} · ${s.sub===0&&s.round===1?'首轮全员同时亮牌':`本标段由 ${ESC(s.players[s.lead].name)} 领衔，所有人秘密选牌后同时揭晓。`}</div><div class="subhead">请选择本标段投入的矿产卡牌</div><div class="hand">${p.hand.map((c,i)=>{const [num,type,cls]=mineCard(c);return `<button class="playing-card mine-card ${cls}" data-act="mine-card" data-index="${i}" title="${type}"><span class="card-glyph">${num}</span><span class="card-sub">${type}</span></button>`}).join('')}</div>`;
+ else if(s.phase==='reveal'||s.phase==='summary')content=`<div class="alert cool">${ESC(s.last.reason)}。获标势力：<b>${ESC(s.players[s.last.winner].name)}</b></div><div class="reveal-grid">${s.last.cards.map((c,i)=>{const [num,type]=mineCard(c);return `<div class="reveal-card ${i===s.last.winner?'winner':''}"><small>${ESC(s.players[i].name)}</small><strong>${num}</strong><small>${type}${i===s.last.winner?' · 🏆':''}</small></div>`}).join('')}</div>${s.phase==='summary'?`<div class="subhead">本轮实际胜场 / 积分变化</div><div class="flex-col">${s.players.map((x,i)=>`<div class="row-between"><span class="smalltext">${ESC(x.name)} · 预判 ${x.guess}${x.secret?' (密令)':''} / 胜场 ${x.wins}</span><b class="${x.lastChange>=0?'cyan-text':'red-text'}">${x.lastChange>=0?'+':''}${x.lastChange}</b></div>`).join('')}</div>`:''}<div class="setup-actions">${button(s.phase==='summary'?(s.round===9?'查看最终排名':'进入下一轮'):'争夺下一标段','mine-next','','primary')}</div>`;
+ const players=s.players.map((x,i)=>pline(x.name,`预判：${x.guess===null?'待提交':x.secret&&s.phase!=='summary'&&s.phase!=='end'&&i!==0?'保密':x.guess} · 本轮胜场 ${x.wins}`,x.score+' 分',i===0)).join('');
+ const scoreboard=panel('积分 / 预判',players,'LIVE BOARD');const recap=panel('当前轮次',`<div class="stat-row"><div class="stat-box"><small>轮次</small><b>${s.round}/9</b></div><div class="stat-box"><small>本轮标段</small><b>${s.sub}/${s.round}</b></div><div class="stat-box"><small>密令</small><b>${p.secretUsed?'0':'1'}次</b></div></div><div class="divider"></div><div class="phase-steps"><span class="${s.phase==='predict'?'on':''}">① 掌矿 / 预判</span><span class="${s.phase==='play'||s.phase==='reveal'?'on':''}">② 逐轮竞标</span><span class="${s.phase==='summary'?'on':''}">③ 结算</span></div>`);
+ return `${top}<div class="game-layout"><div>${panel('全球矿权 · 决策台',content,'TAITAN ENERGY')}${panel('游戏原理',`<div class="rules"><details open><summary>胜场预测与积分</summary><p>预测 n 胜且刚好达成：+2n；失误：−2×误差。预测 0 且实际 0：+当前轮次；预测 0 但有胜：−当前轮次。密令失准则扣分加倍。</p></details><details><summary>制裁 / 避险 / 政策反转</summary><p>制裁打败普通矿产；遇到避险（0）则避险战胜制裁。没有制裁时，奇数张政策反转令最小数字获胜，偶数张则最大获胜。</p></details><details><summary>公平竞争与补充判定</summary><p>每位玩家独立持有 45 张完整卡组：37 资质、4 避险、1 制裁、3 反转；第一轮首张牌保证为资质牌。每个标段同时扣牌再揭晓。数字与特殊牌同序时以领衔者开始的座次破同分。</p></details></div>`,'RULES ENGINE')}</div><aside>${recap}${scoreboard}${panel('竞标战报',logs(s.log),'INTELLIGENCE')}</aside></div>`;
+}
+/* ───── 03 逐梦梅莱坞：80 张版权 / 5 种拍卖 / 4 轮 ───── */
+const REGION=['大陆片','港产片','台产片','日本片','美国片'];
+const MODE=['公开拍卖','一轮竞价','暗标拍卖','一口价','打包出售'];
+const FILM_RAW=[
+`霸王别姬|陈凯歌;芙蓉镇|谢晋;苏州河|娄烨;小武|贾樟柯;三峡好人|贾樟柯;山河故人|贾樟柯;大红灯笼高高挂|张艺谋;红高粱|张艺谋;活着|张艺谋;地久天长|王小帅;狂野时代|毕赣;让子弹飞|姜文;太阳照常升起|姜文;南方车站的聚会|刁亦男;我不是药神|文牧野;河边的错误|魏书钧`,
+`无间道|刘伟强;英雄本色|吴宇森;纵横四海|吴宇森;枪火|杜琪峰;神探|杜琪峰;暗战|杜琪峰;无双|庄文强;天若有情|陈木胜;大话西游|刘镇伟;花样年华|王家卫;阿飞正传|王家卫;重庆森林|王家卫;功夫|周星驰;青蛇|徐克;倩女幽魂|程小东;破·地狱|陈茂贤`,
+`牯岭街少年杀人事件|杨德昌;一一|杨德昌;悲情城市|杨德昌;饮食男女|李安;恋恋风尘|侯孝贤;南国再见，南国|侯孝贤;童年往事|侯孝贤;冬冬的假期|侯孝贤;热带鱼|陈玉勋;血观音|杨雅喆;海角七号|魏德圣;赛德克·巴莱|魏德圣;大佛普拉斯|黄信尧;周处除三害|黄精甫;阳光普照|钟孟宏;老狐狸|萧雅全`,
+`千与千寻|宫崎骏;红辣椒|今敏;新世纪福音战士剧场版：真心为你|庵野秀明;花火|北野武;那天夏天，宁静的海|北野武;东京物语|小津安二郎;东京家族|山田洋次;死者田园祭|寺山修司;七武士|黑泽明;乱|黑泽明;用心棒|黑泽明;如父如子|是枝裕和;小偷家族|是枝裕和;情书|岩井俊二;午夜凶铃|中田秀夫;偶然与想象|滨口龙介`,
+`教父|科波拉;蝙蝠侠：黑暗骑士|诺兰;杀死比尔|昆汀;2001太空漫游|库布里克;降临|维伦纽瓦;迷魂记|希区柯克;出租车司机|斯科塞斯;阿甘正传|罗伯特·泽米吉斯;洛城机密|柯蒂斯·汉森;大地惊雷|科恩兄弟;一个国家的诞生|大卫·格里菲斯;宾虚|威廉·惠勒;卡萨布兰卡|迈克尔·柯迪兹;死亡诗社|罗宾·威廉姆斯;血色将至|P.T.A;城市之光|查理·卓别林`
+];
+const ALL_FILMS=FILM_RAW.flatMap((rows,reg)=>rows.split(';').map((item,i)=>{const [title,director]=item.split('|');return {id:`f-${reg}-${i}`,region:reg,title,director,mode:(i+reg)%5};}));
+function movieStart(){const deck=shuffle(ALL_FILMS);const ps=Array.from({length:4},(_,i)=>({name:['你 · 首席制片人','银幕猎人 AI','港城资本 AI','星河影业 AI'][i],cash:100,hand:deck.splice(0,9),owned:[]}));const hype=CFG.movie.hype?deck.splice(0,9):[];
+ state={round:1,phase:'choose',players:ps,deck,hype,hypeOn:CFG.movie.hype,counts:[0,0,0,0,0],values:[0,0,0,0,0],host:0,lastHost:0,lastSeller:0,auction:null,pending:null,hypeDecision:false,lastOutcome:'',log:['电影版权交易大会开幕。每位竞拍者拥有 100 银币。']};}
+function movieEstimate(items,s=state){const reg=items[0].region,cs=s.counts;const rank=[0,1,2,3,4].sort((a,b)=>cs[b]-cs[a]||a-b).indexOf(reg);const increase=[30,20,10,0,0][rank];const forecast=cs[reg]>=3?increase:increase*.72+(30+20+10)/5*.28;
+ return items.length*(s.values[reg]+forecast);}
+function movieNextSeller(){const s=state,avail=s.players.map((p,i)=>({p,i})).filter(x=>x.p.hand.length>0);if(!avail.length){movieSettle();return;}
+ // 兼顾“少钱先手”与上一主拍人的下家：优先最低剩余银币，平局依座次循环。
+ avail.sort((a,b)=>a.p.cash-b.p.cash||((a.i-s.lastSeller+4)%4)-((b.i-s.lastSeller+4)%4));s.host=avail[0].i;s.phase='choose';if(s.host!==0)movieAIHost();}
+function movieAIHost(){const s=state;if(s.phase!=='choose'||s.host===0)return;const p=s.players[s.host];const allowed=p.hand.filter(c=>c.mode!==4||p.hand.some(z=>z.id!==c.id&&z.region===c.region&&z.mode!==4&&s.counts[c.region]<=2));
+ const pool=allowed.length?allowed:p.hand;const ranked=pool.map(c=>({c,score:movieEstimate([c])+rnd(18)+(c.mode===4?8:0)})).sort((a,b)=>b.score-a.score);const first=ranked[0]?.c;if(!first){movieNextSeller();return;}
+ if(first.mode===4){const second=p.hand.find(c=>c.id!==first.id&&c.region===first.region&&c.mode!==4);if(second){movieInitiate(s.host,[first,second],s.host);return;}
+  // AI 主拍人请求后续 AI 接力；不擅自取走真人手牌。无合格伙伴则免费获得首张。
+  for(let step=1;step<4;step++){const who=(s.host+step)%4;if(who===0)continue;const item=s.players[who].hand.find(c=>c.region===first.region&&c.mode!==4);if(item){s.log.unshift(`${s.players[who].name} 响应打包接力。`);movieInitiate(s.host,[first,item],who);return;}}
+  p.hand=p.hand.filter(c=>c.id!==first.id);s.counts[first.region]++;p.owned.push(first);s.lastSeller=s.host;s.lastOutcome=`${p.name} 打包接力失败，免费获得《${first.title}》`;s.log.unshift(s.lastOutcome);s.phase='after';s.hypeDecision=false;if(s.counts[first.region]>=5)movieSettle();return;
+ }
+ movieInitiate(s.host,[first],s.host);
+}
+function movieChoose(index){const s=state;if(s.phase!=='choose'||s.host!==0)return;const p=s.players[0],c=p.hand[index];if(!c)return;if(c.mode===4){s.phase='bundle';s.pending={first:c};render();return;}movieInitiate(0,[c],0);render();}
+function movieBundleSelect(index){const s=state;if(s.phase!=='bundle')return;const a=s.pending.first;const b=s.players[0].hand[index];if(!b||a.id===b.id||a.region!==b.region||b.mode===4)return notify('第二部电影必须同地区且不是打包卡');movieInitiate(0,[a,b],0);render();}
+function movieBundleRelay(){const s=state;if(s.phase!=='bundle')return;const first=s.pending.first;
+ for(let o=1;o<4;o++){const who=o%4;const next=s.players[who];const second=next.hand.find(c=>c.region===first.region&&c.mode!==4);if(second&&rnd()<.88){s.log.unshift(`${next.name} 接力提供《${second.title}》，成为新主拍人。`);movieInitiate(0,[first,second],who);render();return;}}
+ // 无人接力：原规则指定原主拍人免费获得打包卡。
+ s.players[0].hand=s.players[0].hand.filter(c=>c.id!==first.id);s.counts[first.region]++;s.players[0].owned.push(first);
+ s.log.unshift('无人愿意提供第二张电影，你免费获得首张打包版权。');s.lastOutcome='打包接力失败 · 免费获得《'+first.title+'》';s.lastSeller=0;s.phase='after';s.hypeDecision=false;
+ if(s.counts[first.region]>=5)movieSettle();render();}
+function movieInitiate(origin,items,seller){const s=state;const mode=items[items.length-1].mode===4?0:items[items.length-1].mode;
+ if(seller===0&&mode===3){s.pending={origin,items,seller};s.phase='price';return;}
+ const price=mode===3?Math.max(1,Math.min(s.players[seller].cash,Math.round(movieEstimate(items)*.68)||1)):0;
+ movieLaunch(origin,items,seller,price);
+}
+function moviePrice(){const s=state;if(s.phase!=='price')return;const val=Number($('#movie-price')?.value),available=s.players[0].cash;if(!Number.isInteger(val)||val<0||val>available)return notify(`一口价必须是 0—${Math.floor(available)} 的整数（主拍人需要买得起）`);
+ const {origin,items,seller}=s.pending;movieLaunch(origin,items,seller,val);render();}
+function movieLaunch(origin,items,seller,price=0){const s=state;if(s.phase==='end')return;const reg=items[0].region;
+ for(const c of items){if(s.counts[reg]>=5)break;const owner=s.players.find(p=>p.hand.some(q=>q.id===c.id));if(owner)owner.hand=owner.hand.filter(q=>q.id!==c.id);s.counts[reg]++;
+ if(s.counts[reg]===5){s.log.unshift(`《${c.title}》触发 ${REGION[reg]} 第五张，直接终止本轮；该牌不参与竞拍。`);
+  // 第五张免费归银行；本次未能举行的打包第一张归原主拍人（原型补充）。
+  if(items.length>1&&c.id!==items[0].id)s.players[origin].owned.push(items[0]);s.lastSeller=seller;movieSettle();return;
+ }
+ }
+ const mode=items[items.length-1].mode===4?0:items[items.length-1].mode;
+ const order=Array.from({length:4},(_,i)=>(seller+i+1)%4);
+ s.auction={origin,items,seller,mode,price,order,pos:0,turn:order[0],highest:0,winner:null,active:[true,true,true,true],offers:[null,null,null,null],rounds:0};s.phase='auction';s.lastSeller=seller;s.pending=null;
+ s.log.unshift(`${s.players[seller].name} 上架《${items.map(c=>c.title).join('》+《')}》 · ${MODE[mode]}`);
+ if(mode===2){ // 密封出价，不允许偷看人类出价；AI 先在内部提交。
+  for(let i=1;i<4;i++)s.auction.offers[i]=movieAIBid(i,true);
+  s.auction.turn=0;
+ }else movieAuto();}
+function movieBidCap(i){const a=state.auction,p=state.players[i];const fair=movieEstimate(a.items),confidence=(i===a.seller?1.04:.8),aggression=[1,.95,.88,1.12][i];
+ return cap(Math.floor(fair*confidence*aggression+(rnd(8)-4)),0,p.cash);}
+function movieAIBid(i,sealed=false){const willing=movieBidCap(i);if(sealed)return Math.max(0,Math.min(state.players[i].cash,Math.round(willing*(.55+rnd(.25)))));
+ const a=state.auction,min=a.highest+1;if(willing<min)return null;if(a.mode===3)return willing>=a.price?a.price:null;
+ let b=a.mode===1?Math.min(willing,a.highest+Math.max(2,Math.floor((willing-a.highest)*.55))):Math.min(willing,a.highest+Math.max(1,3+ri(6)));
+ if(rnd()<.11&&willing>a.highest+6)b=Math.min(willing,b+ri(7));return Math.max(min,b);
+}
+function movieAuto(){const s=state;let guard=0;while(s.phase==='auction'&&s.auction.turn!==0&&guard++<150){const i=s.auction.turn,a=s.auction;const bid=movieAIBid(i);movieSubmitBid(i,bid,false);}if(guard>=150)notify('竞拍安全限制已触发');}
+function movieAdvance(){const s=state,a=s.auction;if(a.mode===2)return;
+ if(a.mode===1||a.mode===3){a.pos++;if(a.pos>=a.order.length-(a.mode===3?1:0)){movieFinishAuction();return;}a.turn=a.order[a.pos];return;}
+ // 公开拍卖：淘汰已放弃者；全部放弃则流拍转由主拍人以 1 银币购入。
+ if(a.active.filter(Boolean).length===0||a.winner!==null&&a.active.filter(Boolean).length===1&&a.active[a.winner]){movieFinishAuction();return;}
+ for(let k=1;k<=4;k++){const next=(a.turn+k)%4;if(a.active[next]){a.turn=next;return;}}movieFinishAuction();}
+function movieSubmitBid(i,amount,withAuto=true){const s=state,a=s.auction;if(!a||s.phase!=='auction')return;if(a.turn!==i)return;
+ if(a.mode===2){a.offers[i]=amount===null?0:amount;movieFinishAuction();return;}
+ const valid=amount!==null&&Number.isFinite(amount)&&amount>=0&&amount<=s.players[i].cash&&((a.mode===3&&amount===a.price)||(a.mode!==3&&amount>=a.highest+1));
+ if(a.mode===3){if(valid){a.winner=i;a.highest=a.price;movieFinishAuction();return;}}
+ else if(valid){a.winner=i;a.highest=amount;}else if(a.mode===0){a.active[i]=false;}
+ movieAdvance();if(withAuto)movieAuto();}
+function movieHumanBid(pass=false){const s=state,a=s.auction;if(!a||s.phase!=='auction'||a.turn!==0)return;const bid=pass?null:(a.mode===3?a.price:Number($('#movie-bid')?.value));
+ if(!pass&&(!Number.isInteger(bid)||bid<0||bid>s.players[0].cash||(a.mode===3?bid!==a.price:a.mode===2?false:bid<=a.highest)))return notify(a.mode===2?'暗标必须是余额以内的非负整数':'出价必须大于当前报价，且不能超过你的银币余额');
+ movieSubmitBid(0,bid);render();}
+function movieFinishAuction(){const s=state,a=s.auction;if(!a)return;
+ let winner=a.winner,price=a.highest;
+ if(a.mode===2){const order=a.order;const max=Math.max(...a.offers.map(b=>b??0));winner=order.find(i=>(a.offers[i]??0)===max);price=max;}
+ if(winner===null){winner=a.seller;price=Math.min(1,s.players[winner].cash);}
+ if(a.mode===3&&a.winner===null){winner=a.seller;price=a.price;}
+ const buyer=s.players[winner],seller=s.players[a.seller];if(price>buyer.cash)price=buyer.cash;
+ buyer.cash-=price;if(winner!==a.seller)seller.cash+=price;
+ buyer.owned.push(...a.items);s.lastOutcome=`${buyer.name} 以 ${price} 银币赢得《${a.items.map(c=>c.title).join('》《')}》`;
+ s.log.unshift(s.lastOutcome);s.phase='after';s.hypeDecision=false;
+ if(s.hypeOn&&s.hype.length){if(winner===0)s.hypeDecision=true;else movieAIHype();}
+}
+function movieAIHype(){const s=state;if(!s.hype.length)return;const candidates=s.hype.filter(c=>s.counts[c.region]<5);if(!candidates.length)return;
+ // AI 根据热度决定是否主动翻牌：想让自家热门地区排位上升，避免加速对手利好。
+ if(rnd()>.72)return;const choice=[...candidates].sort((a,b)=>s.counts[b.region]-s.counts[a.region]||rnd()-.5)[0];movieFlipHypeByID(choice.id);}
+function movieFlipHypeByID(id){const s=state,idx=s.hype.findIndex(c=>c.id===id);if(idx<0)return;const [c]=s.hype.splice(idx,1);s.counts[c.region]++;s.log.unshift(`炒作玩家翻开《${c.title}》；${REGION[c.region]} 热度变为 ${s.counts[c.region]}。`);
+ if(s.counts[c.region]>=5){s.log.unshift('炒作翻牌触发第五张，提前清算！');movieSettle();}else{s.hypeDecision=false;s.phase='after';}}
+function movieHype(index){if(state.phase!=='after'||!state.hypeDecision)return;const c=state.hype[index];if(c)movieFlipHypeByID(c.id);render();}
+function movieContinue(){if(state.phase!=='after')return;state.hypeDecision=false;movieNextSeller();render();}
+function movieSettle(){const s=state;const order=[0,1,2,3,4].sort((a,b)=>s.counts[b]-s.counts[a]||a-b);for(let i=0;i<3;i++){const r=order[i];if(s.counts[r]>0)s.values[r]+=[30,20,10][i];}
+ const payouts=[];for(const p of s.players){let sum=0;for(const c of p.owned)sum+=s.values[c.region];p.cash+=sum;p.owned=[];p.payout=sum;payouts.push(`${p.name} +${sum}`);}
+ s.phase='settle';s.auction=null;s.lastOutcome=`第 ${s.round} 轮结算：${payouts.join(' · ')}`;s.log.unshift(s.lastOutcome);}
+function movieNextRound(){if(state.phase!=='settle')return;const s=state;if(s.round===4){s.phase='end';render();return;}s.round++;s.counts=[0,0,0,0,0];if(s.round===2||s.round===3)for(const p of s.players)p.hand.push(...s.deck.splice(0,4));s.host=(s.lastSeller+1)%4;s.phase='choose';s.log.unshift(`第 ${s.round} 轮开始。${s.round===4?'最终轮：不再补牌。':'全体投资人补入 4 张版权卡。'}`);
+ // 牌库接近耗尽时，下一位主拍人可能已无手牌；必须顺时针跳过空手玩家。
+ for(let step=0;step<4&&!s.players[s.host].hand.length;step++)s.host=(s.host+1)%4;
+ if(!s.players.some(p=>p.hand.length)){movieSettle();render();return;}
+ if(s.host!==0)movieAIHost();render();}
+function movieCardView(c,i,act,more=''){return `<button class="playing-card movie-card" data-act="${act}" data-index="${i}" ${more}><span class="card-glyph">${['🎤','↻','◈','¥','▣'][c.mode]} <small style="font-size:9px;float:right">${REGION[c.region]}</small></span><span class="card-title">《${ESC(c.title)}》</span><span class="card-sub">${ESC(c.director)}<br>${MODE[c.mode]}</span></button>`;}
+function movieView(){const s=state,me=s.players[0],a=s.auction;
+ const regions=`<div class="region-track">${REGION.map((r,i)=>`<div class="region ${s.counts[i]===5?'active':''}"><b>${r}</b><strong>${s.counts[i]}/5</strong><small>累计 ${s.values[i]} 银币</small><div class="progress"><span style="width:${s.counts[i]*20}%"></span></div></div>`).join('')}</div>`;
+ let content='';if(s.phase==='end'){
+  const rank=[...s.players].sort((a,b)=>b.cash-a.cash);content=`<div class="end-banner"><h2>${rank[0]===me?'🎬 你成为电影版权之王！':'影坛资本战落幕'}</h2><p>${rank[0].name} 以 ${money(rank[0].cash)} 银币获得最终胜利。</p></div>${rank.map((p,i)=>pline(p.name,`第 ${i+1} 名 · 四轮总资产`,money(p.cash)+' 银币',p===me)).join('')}`;
+ }else if(s.phase==='settle')content=`<div class="end-banner"><h2>第 ${s.round} 轮 · 银行统一清算</h2><p>按地区排名累计升值并出售本轮拍得的电影。每张版权的价值取该地区截至本轮的累计价格。</p></div><div class="subhead">本轮收益</div>${s.players.map((p,i)=>pline(p.name,`银行收购：+${money(p.payout)} 银币`,money(p.cash),i===0)).join('')}<div class="setup-actions">${button(s.round===4?'查看最终排名':'进入下一轮','movie-next-round','','primary')}</div>`;
+ else if(s.phase==='choose')content=s.host===0?`<div class="alert cool">轮到你主持拍卖。请从手牌中选择要拍卖的版权；每张卡附有默认拍卖方式。</div><div class="hand">${me.hand.map((c,i)=>movieCardView(c,i,'movie-choose')).join('')||'<div class="empty">手牌已清空</div>'}</div>`:`<div class="alert">${s.players[s.host].name} 正在挂牌……</div>`;
+ else if(s.phase==='bundle'){const first=s.pending.first;const similar=me.hand.map((c,i)=>({c,i})).filter(x=>x.c.id!==first.id&&x.c.region===first.region&&x.c.mode!==4);content=`<div class="alert cool">《${ESC(first.title)}》为打包卡，请选择另一张同地区、非打包电影作为竞拍组合；或请求其他玩家接力。</div><div class="hand">${similar.map(x=>movieCardView(x.c,x.i,'movie-bundle')).join('')||'<div class="muted">手中没有符合条件的第二张电影。</div>'}</div><div class="setup-actions">${button('请求下家接力','movie-relay','','cyan')}${button('返回手牌','movie-cancel','','ghost')}</div>`;}
+ else if(s.phase==='price'){content=`<div class="alert cool">你是本次一口价拍卖的主拍人。设定价格后，其他玩家依次选择买或不买；无人购买时由你强制自购。</div><div class="subhead">你选择的版权</div><p>${s.pending.items.map(c=>'《'+ESC(c.title)+'》').join(' + ')}</p><label class="label">一口价（你有 ${money(me.cash)} 银币）</label><div class="form-line"><input class="input" id="movie-price" type="number" min="0" max="${Math.floor(me.cash)}" step="1" value="${cap(Math.round(movieEstimate(s.pending.items)*.75),1,Math.floor(me.cash))}">${button('确认定价','movie-setprice','','primary')}</div>`;}
+ else if(s.phase==='auction'){
+  const min=a.mode===3?a.price:a.highest+1;const humanTurn=a.turn===0;content=`<div class="alert cool">${a.items.length>1?'双片打包 · ':''}${MODE[a.mode]} · 主拍人：${ESC(s.players[a.seller].name)} · 当前轮到 ${ESC(s.players[a.turn].name)}</div><div class="hand">${a.items.map((c,i)=>movieCardView(c,i,'movie-noop','disabled')).join('')}</div><div class="subhead">${a.mode===2?'密封竞价 · 其他报价不可见':a.mode===3?'主拍人的一口价：'+a.price+' 银币':`当前最高报价：${a.highest} 银币`}</div>${humanTurn?`<div class="form-line">${a.mode!==3?`<input class="input" id="movie-bid" type="number" min="${a.mode===2?0:min}" max="${Math.floor(me.cash)}" step="1" value="${a.mode===2?Math.max(0,Math.round(movieEstimate(a.items)*.65)):Math.min(Math.floor(me.cash),min+3)}">`:''}${button(a.mode===3?'接受购买':a.mode===2?'递交暗标':'加价竞拍','movie-bid','','primary')}${button(a.mode===3?'拒绝购买':'放弃','movie-pass','','ghost')}</div>`:`<p class="muted">AI 正在计算出价……</p>`}<p class="plain-note">${a.mode===2?'暗标在同步揭示前一直保密。':'公开竞价中，一旦放弃便退出本场竞拍。'}</p>`;
+ }else if(s.phase==='after')content=`<div class="end-banner"><h2>🎬 拍卖成交</h2><p>${ESC(s.lastOutcome)}</p></div>${s.hypeDecision?`<div class="alert cool">你得标了！可从炒作玩家公开手牌中选择一张翻开，让该地区热度 +1，也可能立刻触发第五张结算。</div><div class="hand">${s.hype.map((c,i)=>movieCardView(c,i,'movie-hype')).join('')}</div><div class="setup-actions">${button('跳过翻牌','movie-continue','','ghost')}</div>`:`<div class="setup-actions">${button('继续下一场拍卖','movie-continue','','primary')}</div>`}`;
+ const board=panel('拍卖大厅 · 市场热度',regions,'MARKET HEAT');
+ const side=panel('投资人账户',s.players.map((p,i)=>pline(p.name,`手牌 ${p.hand.length} · 待出售 ${p.owned.length}`,money(p.cash)+' 银币',i===0)).join(''),'PORTFOLIO');
+ const rules=panel('拍卖规则 / 原型说明',`<div class="rules"><details open><summary>地区热度与收益</summary><p>本轮每个地区第 5 张出现即结束，触发牌不拍卖。按出牌量排序，前三个地区分别增加 30/20/10 银币；累计价格作为本轮出售给银行的单片价格。</p></details><details><summary>五种拍卖</summary><p>公开加价、一轮竞价、密封暗标、固定一口价、同地区双片打包。主拍人也能自购，买自己的版权要付钱给银行。</p></details><details><summary>规则缺口的补充</summary><p>80 张电影卡按序号固定轮流标注 5 种拍卖方式（原稿未提供单卡方式）；同量排名因五区初始牌量均为 16，按地区表顺序破同；无报价者按 1 银币由主拍人自购；打包中第五张触发时已上架第一张免费归原主拍人；炒作玩家只领 9 张初始公开手牌。</p></details></div>`,'REFERENCE');
+ return `${head('逐梦梅莱坞',`四轮竞拍 · 第 ${s.round}/4 轮 · ${s.phase==='choose'?'选择挂牌':s.phase==='auction'?'紧张竞价':s.phase==='settle'?'版权清算':'资本博弈'}`,button('重新开拍','start','','ghost'))}<div class="game-layout"><div>${board}${panel('版权交易台',content,'AUCTION FLOOR')}${rules}</div><aside>${panel('轮次概览',`<div class="stat-row"><div class="stat-box"><small>轮次</small><b>${s.round}/4</b></div><div class="stat-box"><small>你的余额</small><b>${money(me.cash)}</b></div><div class="stat-box"><small>剩余牌库</small><b>${s.deck.length}</b></div></div><div class="divider"></div><p class="plain-note">当前主拍人：${ESC(s.players[s.host].name)}</p><p class="plain-note">${s.hypeOn?`炒作公开牌剩余：${s.hype.length}`:'标准四人竞拍模式'}</p>`)}${side}${panel('交易与市场战报',logs(s.log),'LATEST')}${s.hypeOn?panel('炒作玩家 · 公开手牌',`<div class="mini-pills">${s.hype.map(c=>`<span class="mini-pill">${REGION[c.region]} · ${ESC(c.title)}</span>`).join('')}</div>`,'HYPE'):''}</aside></div>`;
+}
+/* ───── 02 地产大亨：8 大回合双账本经济原型（数值均属补充设计） ───── */
+const ESTATE_ZONES=['法租界','旧城区','工业开发区','物流枢纽','灰色娱乐区'];
+const ESTATE_PLOTS=[
+ ['法兰西花园',0,9],['卢湾公馆',0,7],['圣母街',0,6],
+ ['青山观',1,5],['旧城南巷',1,4],['老钟楼',1,5],
+ ['城西机械厂',2,7],['废弃瓷砖厂',2,6],['西郊货场',2,5],
+ ['江畔码头',3,8],['火车西站',3,7],['航运栈桥',3,6],
+ ['凌风东路',4,7],['锈迹舞厅',4,6],['听明大厦',4,9]
+].map(([name,zone,price],id)=>({id,name,zone,price,owner:null,building:null,lvl:0,shut:0,ruined:false,plan:null}));
+const ESTATE_EVENTS=[
+ {name:'外滩的冷风',text:'所有工厂需支付 1 万维护费，否则本轮停产。',kind:'cold'},
+ {name:'江畔潮汐',text:'物流枢纽本轮各地产收益 +2 万。',kind:'port'},
+ {name:'资本回潮',text:'法租界本轮各地产收益 +2 万。',kind:'french'},
+ {name:'警署整顿',text:'锈迹超过 5 的操盘手将缴纳 2 万罚金，唐玮恭免疫。',kind:'police'},
+ {name:'工人抗议',text:'工业开发区本轮收益减半。',kind:'strike'},
+ {name:'凌风之夜',text:'灰色娱乐区本轮各地产收益 +2 万。',kind:'nightlife'},
+ {name:'暗流涌动',text:'市场稳定，某些人的秘密仍在扩散。',kind:'quiet'},
+ {name:'抗战爆发',text:'东亚兴业的工业资产遭遇查封风险。',kind:'war'}
+];
+function estateStart(){const roles=[CFG.estate.role,...Object.keys(ROLE_DATA).filter(r=>r!==CFG.estate.role)].slice(0,CFG.estate.players);
+ const ps=roles.map((role,i)=>({role,name:ROLE_DATA[role].name,white:10,black:2,rust:0,opium:0,ap:0,withdrawal:false,secretStage:0,planUsed:0,spyUsed:0,loansMade:0,arrested:0,bankrupt:false}));
+ const plots=ESTATE_PLOTS.map(p=>({...p}));const shi=ps.findIndex(p=>p.role==='shi');if(shi>=0)plots.find(p=>p.name==='听明大厦').owner=shi;
+ state={round:1,phase:'dawn',players:ps,plots,events:shuffle(ESTATE_EVENTS.filter(e=>e.kind!=='war')),event:null,order:[],turnIdx:0,apReady:[],bid:[],selected:0,loans:[],nightLog:[],log:['1936，樊州的钟声响起。各位操盘手开启双重账本。'],dealUsed:false};}
+const estateOwned=(s,i)=>s.plots.filter(p=>p.owner===i);
+const estateVal=p=>p.price+p.lvl*(p.building==='landmark'?8:p.building==='factory'?6:4)+(p.plan?2:0)-(p.ruined?6:0);
+const estateRole=(s,i,r)=>s.players[i].role===r;
+function estatePay(s,i,amount){const p=s.players[i];if(amount<=0)return true;
+ if(p.white>=amount){p.white-=amount;return true;}
+ if(p.role==='shi'&&p.white+Math.floor(p.black/2)>=amount){const short=Math.ceil(amount-p.white);p.black-=short*2;p.white+=short; p.white-=amount;return true;}
+ return false;}
+function estateCanPay(s,i,amount){const p=s.players[i];return p.white+(p.role==='shi'?Math.floor(p.black/2):0)>=amount;}
+function estateRecord(s,line){s.log.unshift(line);}
+function estateTake(s,i,plot){if(!plot||plot.owner!==null||plot.ruined)return false;const cost=plot.price;if(!estatePay(s,i,cost))return false;plot.owner=i;estateTax(s,i,plot.zone,cost);estateRecord(s,`${s.players[i].name} 斥资 ${money(cost)} 万买下「${plot.name}」。`);return true;}
+function estateTax(s,buyer,zone,cost){const spy=s.players.findIndex(p=>p.role==='spy');if(zone===1&&spy>=0&&spy!==buyer){s.players[spy].white+=Math.round(cost*.05*10)/10;estateRecord(s,`旧城地头蛇抽成 ${money(cost*.05)} 万。`);}}
+function estateBuild(s,i,plot,kind){if(!plot||plot.owner!==i||plot.building||plot.ruined)return false;let cost={house:4,factory:6,landmark:10}[kind];if(estateRole(s,i,'tang')&&plot.zone===0)cost=Math.ceil(cost*1.5);
+ if(!estatePay(s,i,cost))return false;plot.building=kind;plot.lvl=1;
+ estateRecord(s,`${s.players[i].name} 在「${plot.name}」建设${{house:'住宅',factory:'工厂',landmark:'地标'}[kind]}，投入 ${cost} 万。`);return true;}
+function estateUpgrade(s,i,plot){if(!plot||plot.owner!==i||!plot.building||plot.lvl>=3||plot.ruined)return false;const cost=plot.lvl*3+1;if(!estatePay(s,i,cost))return false;plot.lvl++;estateRecord(s,`${s.players[i].name} 将「${plot.name}」升级至 ${plot.lvl} 级。`);return true;}
+function estateTakeover(s,i,plot){if(!plot||plot.owner===null||plot.owner===i||plot.ruined)return false;const price=Math.ceil(estateVal(plot)*1.7);if(!estatePay(s,i,price))return false;
+ s.players[plot.owner].white+=price;plot.owner=i;s.players[i].rust+=2;estateTax(s,i,plot.zone,price);estateRecord(s,`${s.players[i].name} 以 ${price} 万溢价强购「${plot.name}」，锈迹 +2。`);return true;}
+function estateDuel(s,i,plot){if(!estateRole(s,i,'tang')||!plot||plot.zone!==1||plot.owner===null||plot.owner===i)return false;
+ const p=s.players[i],cost=Math.ceil(estateVal(plot)*.5);if(!estateCanPay(s,i,Math.max(2,cost)))return false;const mine=1+ri(6),theirs=1+ri(6);p.rust+=2;
+ if(mine>theirs){estatePay(s,i,cost);s.players[plot.owner].white+=cost;plot.owner=i;estateRecord(s,`唐玮恭在旧城械斗 ${mine}:${theirs} 获胜，以 ${cost} 万接收「${plot.name}」。`);}else{estatePay(s,i,2);estateRecord(s,`唐玮恭械斗 ${mine}:${theirs} 失败，损失 2 万。`);}return true;}
+function estateSkill(s,i,kind,plot){const p=s.players[i],name=p.name;
+ if(kind==='launder'){if(p.black<4)return false;p.black-=4;p.white+=2;p.rust+=p.role==='shi'?0:1;estateRecord(s,`${name} 以虚高工程款转换 4 万黑账 → 2 万白账。`);return true;}
+ if(kind==='casino'){if(p.black<2)return false;p.black-=2;let d=1+ri(6);if(d<4&&p.role==='bai'&&p.white>=1){p.white-=1;d=1+ri(6);estateRecord(s,'白子虑使用精密计算，支付 1 万重掷。');}if(d>=4){p.white+=4;estateRecord(s,`${name} 赌场检定成功（${d}），白账 +4 万。`);}else{p.rust++;estateRecord(s,`${name} 赌场失利（${d}），锈迹 +1。`);}return true;}
+ if(kind==='antique'){if(p.black<5)return false;p.black-=5;p.white+=3;p.rust+=2;estateRecord(s,`${name} 完成古董交易，白账 +3 万、锈迹 +2。`);return true;}
+ if(kind==='loan'){if(p.role!=='bai'||p.white<3)return false;const borrowers=s.players.map((x,j)=>({x,j})).filter(x=>x.j!==i&&!x.x.bankrupt).sort((a,b)=>a.x.white-b.x.white);
+  const b=borrowers[0];if(!b)return false;p.white-=3;b.x.white+=3;s.loans.push({from:i,to:b.j,amount:3,collateral:estateOwned(s,b.j)[0]?.id??null});p.loansMade++;estateRecord(s,`${name} 向 ${b.x.name} 放贷 3 万，每夜收息 10%。`);return true;}
+ if(kind==='seal'){if(p.role!=='tang'||p.rust<2||!plot||plot.owner===null||plot.owner===i||!plot.building)return false;p.rust-=2;plot.shut=s.round;estateRecord(s,`唐玮恭发动警方关系，查封「${plot.name}」至本轮结束。`);return true;}
+ if(kind==='pandora'){if(p.role!=='yama'||!s.plots.some(q=>q.name==='废弃瓷砖厂'&&q.owner===i)||p.secretStage>=3)return false;
+  if(p.secretStage===0){if(!estatePay(s,i,2))return false;p.secretStage=1;p.rust+=1;estateRecord(s,`${name} 启动瓷砖厂机密项目：储存阶段，维持费 2 万。`);}
+  else if(p.secretStage===1){if(p.black<2)return false;p.black-=2;p.secretStage=2;p.rust+=2;estateRecord(s,`${name} 完成秘密项目运输阶段，黑账 −2 万，锈迹 +2。`);}
+  else{p.secretStage=3;p.black+=8;p.rust+=4;estateRecord(s,`${name} 完成机密项目交易，黑账 +8 万、锈迹 +4。`);if(rnd()<.22){s.plots.find(q=>q.name==='废弃瓷砖厂').ruined=true;estateRecord(s,'瓷砖厂发生严重事故，地块永久荒废。');}}return true;}
+ if(kind==='plan'){if(p.role!=='shi'||p.planUsed===s.round||!plot)return false;plot.plan=i;p.planUsed=s.round;estateRecord(s,`时听明在「${plot.name}」设置规划标记，增加地价并改善收益。`);return 'free';}
+ if(kind==='spy'){if(p.role!=='spy'||p.spyUsed===s.round)return false;p.spyUsed=s.round;const next=s.events[0];if(next){s.events.push(s.events.shift());estateRecord(s,`史翠珊的影子窥视「${next.name}」，将其放到时局牌堆底。`);}return 'free';}
+ return false;}
+function estateExecute(i,kind,pid){const s=state;if(s.phase!=='day')return false;const p=s.players[i],plot=s.plots[pid];if(p.ap<=0)return false;let ok=false;
+ if(kind==='buy')ok=estateTake(s,i,plot);else if(['house','factory','landmark'].includes(kind))ok=estateBuild(s,i,plot,kind);
+ else if(kind==='upgrade')ok=estateUpgrade(s,i,plot);else if(kind==='takeover')ok=estateTakeover(s,i,plot);else if(kind==='duel')ok=estateDuel(s,i,plot);
+ else if(kind==='pass'){ok=true;estateRecord(s,`${p.name} 选择观望，保留实力。`);}
+ else ok=estateSkill(s,i,kind,plot);
+ if(ok&&ok!=='free')p.ap--;return !!ok;}
+function estateAIAct(i){const s=state,p=s.players[i],own=estateOwned(s,i),free=s.plots.filter(q=>q.owner===null&&!q.ruined&&estateCanPay(s,i,q.price));
+ const choices=[];
+ for(const land of free){const district=land.zone===2&&p.role==='yama'?4:land.zone===1&&p.role==='spy'?2:0;choices.push({a:'buy',pid:land.id,v:land.price<=(p.white-4)?16+district+land.price*.2:5});}
+ for(const land of own){if(!land.building&&estateCanPay(s,i,land.zone===2?6:4)){choices.push({a:land.zone===2?'factory':'house',pid:land.id,v:19+(land.zone===2&&p.role==='yama'?9:0)});}
+  else if(land.building&&land.lvl<3&&estateCanPay(s,i,land.lvl*3+1))choices.push({a:'upgrade',pid:land.id,v:15+land.zone});}
+ if(p.black>=4)choices.push({a:'launder',pid:0,v:9+(p.rust>=9?6:0)});
+ if(p.black>=2&&p.white<4)choices.push({a:'casino',pid:0,v:11});
+ if(p.role==='bai'&&p.white>=6)choices.push({a:'loan',pid:0,v:8});
+ if(p.role==='yama'&&s.plots.some(q=>q.name==='废弃瓷砖厂'&&q.owner===i)&&p.secretStage<3)choices.push({a:'pandora',pid:0,v:8});
+ choices.push({a:'pass',pid:0,v:1});choices.sort((a,b)=>b.v+rnd(3)-(a.v+rnd(3)));
+ for(const c of choices)if(estateExecute(i,c.a,c.pid))return;estateExecute(i,'pass',0);}
+function estateProcessDay(){const s=state;if(s.phase!=='day')return;let guard=0;while(s.turnIdx<s.order.length&&guard++<60){const i=s.order[s.turnIdx],p=s.players[i];if(!s.apReady[i]){p.ap=p.role==='bai'&&p.withdrawal?2:3;s.apReady[i]=true;}
+ if(p.ap<=0){s.turnIdx++;continue;}if(i===0)break;estateAIAct(i);}
+ if(s.turnIdx>=s.order.length){s.phase='dusk';s.log.unshift('正午结束。黑市在凌风东路悄然开张。');}}
+function estateDawn(){const s=state;if(s.phase!=='dawn')return;const p=s.players[0],bid=Number($('#estate-bid')?.value);if(!Number.isInteger(bid)||bid<0||bid>p.black)return notify('请选择不超过自己黑账的整数暗标金额');
+ s.bid=[bid];p.black-=bid;
+ for(let i=1;i<s.players.length;i++){const q=s.players[i],x=Math.min(q.black,Math.floor(rnd(3)));s.bid[i]=x;q.black-=x;}
+ s.order=s.players.map((p,i)=>i).sort((a,b)=>s.bid[b]-s.bid[a]||a-b);s.event=estateDrawEvent(s);estateApplyEvent(s);s.turnIdx=0;s.apReady=[];s.phase='day';s.log.unshift(`晨曦：秘密竞标完成。行动顺序：${s.order.map(i=>s.players[i].name).join(' → ')}。`);estateProcessDay();render();}
+function estateDrawEvent(s){if(!s.events.length)s.events=shuffle(ESTATE_EVENTS.filter(e=>e.kind!=='war'));if(s.round>=4&&rnd()<.17)return ESTATE_EVENTS.find(e=>e.kind==='war');return s.events.shift();}
+function estateApplyEvent(s){const e=s.event;s.log.unshift(`时局卡【${e.name}】：${e.text}`);
+ if(e.kind==='cold')for(const land of s.plots){if(land.building==='factory'&&land.owner!==null){if(s.players[land.owner].white>=1)s.players[land.owner].white-=1;else land.shut=s.round;}}
+ if(e.kind==='police')for(const p of s.players)if(p.role!=='tang'&&p.rust>5)p.white=Math.max(0,p.white-2);
+ if(e.kind==='war')for(const land of s.plots)if(land.owner!==null&&estateRole(s,land.owner,'yama')&&land.zone===2&&rnd()<.35){land.shut=s.round;s.log.unshift(`战争冲击：${land.name} 暂时停产。`);}
+}
+function estateHuman(kind){const s=state;if(s.phase!=='day'||s.order[s.turnIdx]!==0)return;const isFree=['plan','spy'].includes(kind);const ok=estateExecute(0,kind,s.selected);if(!ok)return notify('条件不足、现金不足或当前地块不适用');if(!isFree||ok!=='free')estateProcessDay();render();}
+function estateDusk(kind){const s=state;if(s.phase!=='dusk')return;const p=s.players[0];
+ if(kind==='opium'){if(p.black<2)return notify('需要至少 2 万黑账');p.black-=2;p.opium++;estateRecord(s,'你购入 1 单位补给资源（鸦片）。');}
+ else if(kind==='goods'){p.black+=4;p.rust+=2;estateRecord(s,'你冒险进行黑市交易：黑账 +4 万、锈迹 +2。');}
+ else if(kind==='arms'){if(s.round<4)return notify('军火交易第 4 回合解锁');p.black+=6;p.rust+=4;estateRecord(s,'你参与军火交易，黑账 +6 万、锈迹 +4。');if(rnd()<.25){p.white=Math.max(0,p.white-3);estateRecord(s,'良心骰检定失败，缴纳 3 万代价。');}}
+ else estateRecord(s,'你拒绝参与黑市交易，避免额外锈迹。');
+ for(let i=1;i<s.players.length;i++){const q=s.players[i];if(q.role==='bai'&&q.opium===0&&q.black>=2){q.black-=2;q.opium++;estateRecord(s,`${q.name} 购买所需补给。`);}
+  else if(q.rust<=8&&(q.black<6||q.role==='tang')&&rnd()<.5){q.black+=4;q.rust+=2;estateRecord(s,`${q.name} 获得黑市收益 4 万并增加 2 锈迹。`);}}
+ estateNight();render();}
+function estateIncome(s,land){if(land.owner===null||land.ruined||land.shut===s.round)return 0;const owner=s.players[land.owner];let income=.6;
+ if(land.building==='house')income+=land.lvl*2;
+ if(land.building==='factory')income+=land.lvl*3*(owner.role==='yama'?1.5:1);
+ if(land.building==='landmark')income+=land.lvl*4;
+ if(land.plan!==null)income+=1;
+ if(s.event.kind==='port'&&land.zone===3)income+=2;if(s.event.kind==='french'&&land.zone===0)income+=2;if(s.event.kind==='nightlife'&&land.zone===4)income+=2;
+ if(s.event.kind==='strike'&&land.zone===2)income*=.5;return Math.round(income*10)/10;}
+function estateNight(){const s=state,ledger=[];for(let i=0;i<s.players.length;i++){const p=s.players[i];const profit=estateOwned(s,i).reduce((v,q)=>v+estateIncome(s,q),0);p.white+=profit;ledger.push(`${p.name}：租金 +${money(profit)} 万`);}
+ for(const debt of [...s.loans]){const a=s.players[debt.from],b=s.players[debt.to],interest=Math.round(debt.amount*.1*10)/10;if(b.white>=interest){b.white-=interest;a.white+=interest;}else if(debt.collateral!==null){const q=s.plots[debt.collateral];if(q.owner===debt.to){q.owner=debt.from;ledger.push(`债务违约：${b.name} 的「${q.name}」被银行家接收。`);}s.loans=s.loans.filter(x=>x!==debt);}}
+ for(const p of s.players){if(p.role==='bai'){if(p.opium>0){p.opium--;p.withdrawal=false;}else{p.withdrawal=true;ledger.push('白子虑缺乏补给，下轮行动点降为 2。');}}
+ if(p.rust>=9){const fine=Math.ceil((p.rust-8)/3);p.white=Math.max(0,p.white-fine);ledger.push(`${p.name} 锈迹过高，罚金 ${fine} 万。`);}
+ if(p.rust>15){p.bankrupt=true;ledger.push(`${p.name} 锈迹超过 15，终局取消资格。`);}}
+ s.nightLog=ledger;s.log.unshift(...ledger.slice().reverse());s.phase=s.round===8?'end':'night';}
+function estateNextRound(){if(state.phase!=='night')return;state.round++;state.phase='dawn';state.event=null;state.log.unshift(`新一轮 · ${1936+Math.floor((state.round-1)/2)} 年，樊州再次开盘。`);render();}
+function estateScore(s,i){const p=s.players[i];return Math.round((p.white+p.black/2+estateOwned(s,i).reduce((v,q)=>v+estateVal(q),0)-p.rust*5)*10)/10;}
+function estateView(){const s=state,me=s.players[0],selected=s.plots[s.selected],whose=s.phase==='day'?s.order[s.turnIdx]:null;const end=s.phase==='end';const leader=[...s.players.map((p,i)=>({p,i,score:estateScore(s,i)}))].sort((a,b)=>(a.p.bankrupt?1:0)-(b.p.bankrupt?1:0)||b.score-a.score);
+ const map=ESTATE_ZONES.map((name,z)=>`<div class="subhead">${name}</div><div class="market-list">${s.plots.filter(p=>p.zone===z).map(p=>`<button class="plot ${s.selected===p.id?'selected':''}" data-act="estate-plot" data-id="${p.id}"><span class="plot-zone">${name} · ${p.price} 万</span><span class="plot-owner ${p.owner===0?'me':''}">${p.owner===null?'未开发':p.owner===0?'我':ESC(s.players[p.owner].name)}</span><b>${ESC(p.name)}</b><div class="building">${p.ruined?'🕳️':p.building==='house'?'🏘️':p.building==='factory'?'🏭':p.building==='landmark'?'🏛️':'◇'}</div><small>${p.building?`Lv.${p.lvl} · ${p.shut===s.round?'查封停产':'可经营'}`:p.ruined?'永久荒废':'待开发'} ${p.plan!==null?'· 规划':''}</small></button>`).join('')}</div>`).join('');
+ let controls='';if(end)controls=`<div class="end-banner"><h2>${leader[0].i===0?'🏆 你成为樊州的新主人！':'樊州的新主人已经诞生'}</h2><p>${leader[0].p.name} 掌握了这座城的命脉。地产、白账、黑账与锈迹均已计入最终结果。</p></div>${leader.map((e,i)=>pline(e.p.name,e.p.bankrupt?'锈迹超标 · 被取消资格':`第 ${i+1} 名 · 终局估值`,e.p.bankrupt?'出局':money(e.score)+' 分',e.i===0)).join('')}`;
+ else if(s.phase==='dawn')controls=`<div class="alert cool">① 晨曦 · 暗标决定本回合先后行动顺序。原型采用黑账竞标，暗标花费交给银行。</div><div class="subhead">竞标行动先手</div><label class="label">使用黑账（可用 ${money(me.black)} 万）</label><div class="form-line"><input class="input" type="number" id="estate-bid" min="0" max="${Math.floor(me.black)}" step="1" value="0">${button('提交秘密竞标','estate-dawn','','primary')}</div><p class="board-note">你不会提前看到 AI 的出价。时局卡与行动顺序将同时揭晓。</p>`;
+ else if(s.phase==='day'){
+ const other=whose!==0, can=selected.owner===0, enemy=selected.owner!==null&&selected.owner!==0;
+ const acts=other?'AI 正在执行行动……':`<div class="alert cool">② 正午 · 你的剩余行动点：<b>${me.ap}</b> / ${me.role==='bai'&&me.withdrawal?2:3}。点击左侧地块后选择行动。</div><div class="action-grid">
+ ${selected.owner===null?button('买入地块 · '+selected.price+'万','estate-act','data-kind="buy"','primary'):''}
+ ${can&&!selected.building?`${button('建住宅 · 4万','estate-act','data-kind="house"')}${button('建工厂 · 6万','estate-act','data-kind="factory"')}${button('建地标 · 10万','estate-act','data-kind="landmark"')}`:''}
+ ${can&&selected.building&&selected.lvl<3?button('升级建筑 · '+(selected.lvl*3+1)+'万','estate-act','data-kind="upgrade"'):''}
+ ${enemy?`${button('强行并购 · '+Math.ceil(estateVal(selected)*1.7)+'万','estate-act','data-kind="takeover"')}${me.role==='tang'&&selected.zone===1?button('旧城械斗','estate-act','data-kind="duel"'):''}${me.role==='tang'&&selected.building?button('警方查封 (锈迹 -2)','estate-act','data-kind="seal"'):''}`:''}
+ ${button('虚高工程款 · 洗白','estate-act','data-kind="launder"')}${button('赌场运作 · 掷骰','estate-act','data-kind="casino"')}${button('古董交易 · 洗白','estate-act','data-kind="antique"')}
+ ${me.role==='shi'&&me.planUsed!==s.round?button('城市规划 · 免费','estate-act','data-kind="plan"','cyan'):''}
+ ${me.role==='bai'?button('融资通道 · 放贷','estate-act','data-kind="loan"'):''}
+ ${me.role==='spy'&&me.spyUsed!==s.round?button('情报网 · 换时局牌','estate-act','data-kind="spy"','cyan'):''}
+ ${me.role==='yama'?button('瓷砖厂秘密项目','estate-act','data-kind="pandora"'):''}
+ ${button('观望 · 结束 1 AP','estate-act','data-kind="pass"','ghost')}
+ </div>`;
+ controls=`<div class="subhead">本轮时局 · ${s.event.name}</div><p class="board-note">${s.event.text}</p><div class="divider"></div><div class="subhead">已选地块：${selected.name}</div><p class="plain-note">当前产权：${selected.owner===null?'无主':s.players[selected.owner].name} · 当前估值 ${money(estateVal(selected))} 万</p>${acts}`;}
+ else if(s.phase==='dusk')controls=`<div class="alert">③ 黄昏 · 黑市与阴谋。选择一次黑市行动，然后进入深夜收益与锈迹结算。</div><div class="action-grid">${button('黑市经营 · 黑账 +4','estate-dusk','data-kind="goods"','danger')}${button('补给采购 · 黑账 -2','estate-dusk','data-kind="opium"')}${button('军火交易 · 黑账 +6','estate-dusk',`data-kind="arms" ${s.round<4?'disabled':''}`,'danger')}${button('低调收手','estate-dusk','data-kind="rest"','ghost')}</div><p class="plain-note">黑市交易会增加锈迹。第 4 回合解锁军火；相关内容以抽象游戏数值呈现。</p>`;
+ else if(s.phase==='night')controls=`<div class="end-banner"><h2>④ 深夜 · 结算完成</h2><p>八个大回合中的第 ${s.round} 回合落幕。租金、利息、查封和锈迹代价均已处理。</p></div><div class="flex-col">${s.nightLog.map(line=>`<div class="log-item">${ESC(line)}</div>`).join('')}</div><div class="setup-actions">${button('前往下一轮 · 晨曦','estate-next','','primary')}</div>`;
+ const bars=s.players.map((p,i)=>pline(p.name,`${ROLE_DATA[p.role].title} · 锈迹 ${p.rust} · 地产 ${estateOwned(s,i).length}`,`白 ${money(p.white)} / 黑 ${money(p.black)}`,i===0)).join('');
+ return `${head('地产大亨',`樊州 · 1936—1940 · 第 ${s.round}/8 大回合`,button('重启樊州','start','','ghost'))}<div class="game-layout"><div>${panel('樊州版图 · 五大城区',`<div class="phase-steps"><span class="${s.phase==='dawn'?'on':''}">① 晨曦</span><span class="${s.phase==='day'?'on':''}">② 正午</span><span class="${s.phase==='dusk'?'on':''}">③ 黄昏</span><span class="${s.phase==='night'?'on':''}">④ 深夜</span></div>${map}`,'15 LAND PARCELS')}${panel('操盘与命运',controls,'RUST & SHINE')}${panel('规则补全声明',`<div class="alert">此版不是已获作者确认的最终版：15 块地价（4–9 万）、住宅 4 万、工厂 6 万、地标 10 万、升级与租金公式、赌场成功率、时局概率、查封与贷款抵押等均为可玩的原型平衡方案。原规则未提供完整数值或 200 张牌的卡面，不能伪称精确还原。</div><p class="board-note">终局计分：白账 + 地产原价及增值 + 黑账÷2 − 锈迹×5；锈迹大于 15 取消资格。保留各角色差异、8 回合与四阶段循环。</p>`,'DESIGN NOTE')}</div><aside>${panel('操盘手档案',`<div class="stat-row"><div class="stat-box"><small>白账 · 万</small><b>${money(me.white)}</b></div><div class="stat-box"><small>黑账 · 万</small><b>${money(me.black)}</b></div><div class="stat-box"><small>锈迹值</small><b class="${me.rust>10?'red-text':''}">${me.rust}</b></div></div><div class="divider"></div><div class="row-between"><strong>${me.name}</strong><span class="mini-pill">${money(estateScore(s,0))} 估值分</span></div><p class="board-note">${ROLE_DATA[me.role].title} · 补给 ${me.opium} · ${me.role==='bai'&&me.withdrawal?'戒断状态':'正常状态'}</p>`,'DOSSIER')}${panel('财阀榜单',bars,'ECONOMY')}${panel('樊州密报',logs(s.log),'INTELLIGENCE')}</aside></div>`;
+}
+/* ───── UI 事件路由 ───── */
+document.addEventListener('change',configChanged);
+document.addEventListener('click',e=>{const btn=e.target.closest('[data-act]');if(!btn||btn.disabled)return;const act=btn.dataset.act;
+ try{
+  switch(act){
+   case 'home':home();break;case 'go':go(btn.dataset.game);break;case 'start':startGame();break;
+   case 'grain-cell':grainClick(Number(btn.dataset.x),Number(btn.dataset.y));break;
+   case 'grain-undo':grainUndo();break;case 'grain-hint':grainHint();break;
+   case 'mine-predict':minePredict();break;case 'mine-card':minePlay(Number(btn.dataset.index));break;case 'mine-next':mineNext();break;
+   case 'movie-choose':movieChoose(Number(btn.dataset.index));break;
+   case 'movie-bundle':movieBundleSelect(Number(btn.dataset.index));break;
+   case 'movie-relay':movieBundleRelay();break;
+   case 'movie-cancel':state.phase='choose';state.pending=null;render();break;
+   case 'movie-setprice':moviePrice();break;
+   case 'movie-bid':movieHumanBid(false);break;case 'movie-pass':movieHumanBid(true);break;
+   case 'movie-continue':movieContinue();break;case 'movie-hype':movieHype(Number(btn.dataset.index));break;
+   case 'movie-next-round':movieNextRound();break;case 'movie-noop':break;
+   case 'estate-dawn':estateDawn();break;case 'estate-plot':state.selected=Number(btn.dataset.id);render();break;
+   case 'estate-act':estateHuman(btn.dataset.kind);break;case 'estate-dusk':estateDusk(btn.dataset.kind);break;
+   case 'estate-next':estateNextRound();break;
+  }
+ }catch(err){console.error('[Strategy Arena]',err);notify('发生一个原型异常；详情可在浏览器控制台查看。');}
+});
+render();
+
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"7939e04a4baf43c8b86a560f74aac60e","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
